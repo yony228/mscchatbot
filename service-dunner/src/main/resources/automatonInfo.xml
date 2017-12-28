@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<automation statesPersis="cn.yony.automaton.simple.persistence.MemPersisContainer"
+            sessPersis="cn.yony.automaton.simple.persistence.MemPersisContainer">
+
+    <actors>
+        <actor id="0">
+            <map condition="1" next_state="1">
+                <output>您好，请问您是#name##title#吗？</output>
+            </map>
+        </actor>
+        <actor id="1">
+            <map condition="1" next_state="2">
+                <output>#familyname##title#，您好。我这边是信美分期给您来电，本次来电是提醒您，您的贷款分期合同已经逾期#day#天，截至今天一共是#amount#万元。请您尽快归还。</output>
+            </map>
+            <map condition="2" next_state="3">
+                <output>不好意思，打扰您了！那么请问您认识#name##title#吗？</output>
+            </map>
+        </actor>
+        <actor id="2">
+            <map condition="1" next_state="6">
+                <output>好的，那么再跟您确认下，您的贷款分期合同已经逾期#day#天，截至今天一共是#amount#万元。请您在今晚8点前将欠款共计11万元打入您尾号为#card_no#的代扣款卡内。扣款完成后我们会通过短信的形式通知您。感谢您对信美分期的信任。再见</output>
+            </map>
+            <map condition="2" next_state="4">
+                <output>#familyname##title#，你的合同逾期会累积产生逾期费用，而且会影响您的信用记录，请您务必和家人朋友周转，还上逾期的款项。</output>
+            </map>
+        </actor>
+        <actor id="3">
+            <map condition="1" next_state="6">
+                <output>那么麻烦你帮我转告一下#familyname##title#：他的贷款分期合同已经逾期#day#天，截至今天一共是#amount#万元。请他尽快归还。谢谢，再见</output>
+            </map>
+            <map condition="2" next_state="6">
+                <output>非常抱歉打扰到您了，再见。</output>
+            </map>
+        </actor>
+        <actor id="4">
+            <map condition="1" next_state="6">
+                <output>好的，那么再跟您确认下，您的贷款分期合同已经逾期#day#天，截至今天一共是#amount#万元。请您在今晚8点前将欠款共计11万元打入您尾号为#card_no#的代扣款卡内。扣款完成后我们会通过短信的形式通知您。感谢您对信美分期的信任。再见</output>
+            </map>
+            <map condition="2" next_state="5">
+                <output>#familyname##title#，您的不良信用记录将会给您的工作生活带来诸多不便，请您认真考虑一下，及时归还欠款。</output>
+            </map>
+        </actor>
+        <actor id="5">
+            <map condition="1" next_state="6">
+                <output>好的，那么再跟您确认下，您的贷款分期合同已经逾期#day#天，截至今天一共是#amount#万元。请您在今晚8点前将欠款共计11万元打入您尾号为#card_no#的代扣款卡内。扣款完成后我们会通过短信的形式通知您。感谢您对信美分期的信任。再见</output>
+            </map>
+            <map condition="2" next_state="6">
+                <output>那好吧，我公司将会将您欠款的相关材料提交公安司法部门处理。再见</output>
+            </map>
+        </actor>
+        <actor id="6">
+            <map condition="1" next_state="6">
+                <output>END</output>
+            </map>
+        </actor>
+    </actors>
+
+    <arbiters>
+        <!--<arbiter id="1" type="func" value="com.xxx.xxx.xxx@abc"/>-->
+        <arbiter id="0" type="class" value="cn.edu.nudt.pdl.yony.servicedunner.utils.NonopParser"/>
+        <arbiter id="1" type="class" value="cn.edu.nudt.pdl.yony.servicedunner.utils.SegmentationParser"/>
+    </arbiters>
+
+    <states>
+        <state id="0" is_entry="true" arbiter_id="0" actor_id="0"/>
+        <state id="1" is_entry="false" arbiter_id="1" actor_id="1"/>
+        <state id="2" is_entry="false" arbiter_id="1" actor_id="2"/>
+        <state id="3" is_entry="false" arbiter_id="1" actor_id="3"/>
+        <state id="4" is_entry="false" arbiter_id="1" actor_id="4"/>
+        <state id="5" is_entry="false" arbiter_id="1" actor_id="5"/>
+        <state id="6" is_entry="false" arbiter_id="0" actor_id="6"/>
+    </states>
+
+</automation>
