@@ -6,6 +6,8 @@
 # Log file
 *.log
 
+.idea
+
 # BlueJ files
 *.ctxt
 
@@ -26,3 +28,4 @@ hs_err_pid*
 将删除 .gitignore
 将删除 .idea/inspectionProfiles/
 将删除 .idea/workspace.xml
+将删除 logs/
