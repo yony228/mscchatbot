@@ -5,9 +5,11 @@
 
 # Log file
 *.log
-logs
+logs/
+msc/
+.mvn/
 
-.idea
+.idea/
 
 # BlueJ files
 *.ctxt
