@@ -64,21 +64,47 @@
 			<version>8.17.0</version>
 		</dependency>
 
-		<!-- add log4j2 dependency -->
+		<!-- log4j2 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-log4j2</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<!-- lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- iflytek -->
+		<dependency>
+			<groupId>com.iflytek.cloud</groupId>
+			<artifactId>speech-msc</artifactId>
+			<version>1019</version>
+		</dependency>
 
-	</dependencies>
+		<!-- json-jena -->
+		<dependency>
+			<groupId>com.hp.hpl.jena</groupId>
+			<artifactId>json-jena</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<!-- mongodb driver -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.6.1</version>
+		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.1</version>
+        </dependency>
+
+
+    </dependencies>
 
 	<build>
 		<plugins>

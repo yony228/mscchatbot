@@ -3,15 +3,21 @@ package cn.edu.nudt.pdl.yony.servicewaiter.server;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigInteger;
 import java.net.Socket;
-import java.util.concurrent.*;
+import java.util.Map;
 
 import cn.edu.nudt.pdl.yony.servicewaiter.service.OuterDunnerService;
+import cn.edu.nudt.pdl.yony.servicewaiter.utils.MongoJdbcTemplate;
 import com.iflytek.cloud.speech.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +33,7 @@ public class DunnerHandler implements Runnable {
         // 外部软件ID码
         private static final String APPID = "5a4061d5";
         // 外部催收Chatbot服务
+        @Autowired
         private OuterDunnerService outerDunnerService;
         private SpeechRecognizer mIat;
         // 会话 id
@@ -35,15 +42,24 @@ public class DunnerHandler implements Runnable {
         private Socket socket;
         private InputStream inputStream;
         private OutputStream outputStream;
+
+        // 通话相关信息
+        @Autowired
+        MongoJdbcTemplate mongoJdbcTemplate;
+        private Map callInfo;
+        @Value("${self.mongodb.template.database}")
+        private String collectionName;
+
         // 断句标志
         private volatile boolean stop = false;
-        private final CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
+//        private final CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
+//        private Object monitor = new Object();
+
 
         // Constructor
-        public DunnerHandler(Socket socket, OuterDunnerService outerDunnerService) throws IOException {
+        public DunnerHandler(Socket socket/*, OuterDunnerService outerDunnerService*/) throws IOException {
                 SpeechUtility.createUtility(SpeechConstant.APPID + "=" + APPID);
                 this.socket = socket;
-                this.outerDunnerService = outerDunnerService;
                 this.inputStream = socket.getInputStream();
                 this.outputStream = socket.getOutputStream();
         }
@@ -65,7 +81,7 @@ public class DunnerHandler implements Runnable {
                                 log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
                                 if (StringUtils.isNotBlank(receivedStr)) {
                                         String sendStr = getRepStr(receivedStr);
-                                        log.info("sendStr :" + sendStr);
+                                        log.debug("sendStr :" + sendStr);
                                         try {
                                                 sendStr(sendStr);
                                         } catch (IOException e) {
@@ -77,17 +93,17 @@ public class DunnerHandler implements Runnable {
 
                 //会话发生错误回调接口
                 public void onError(SpeechError error) {
-                        log.info(error.getErrorDescription(true)); //获取错误码描述
+                        log.debug(error.getErrorDescription(true)); //获取错误码描述
                 }
 
                 //开始录音
                 public void onBeginOfSpeech() {
-                        log.info("开始！");
+                        log.debug("开始！");
                 }
 
                 //音量值0~30
                 public void onVolumeChanged(int volume) {
-//                        log.info("volume :" + volume);
+//                        log.debug("volume :" + volume);
                         /*if (volume == 0) {
                                 i++;
                         } else {
@@ -112,19 +128,10 @@ public class DunnerHandler implements Runnable {
 
                 // 结束录音
                 public void onEndOfSpeech() {
-                        log.info("结束！");
-                        mIat.stopListening();
-                        stop = true;
-                        while (mIat.isListening()){
-                                try {
-                                        Thread.sleep(100);
-                                } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                }
+//                        synchronized (monitor) {
+                        if (log.isDebugEnabled()) {
+                                log.debug("结束！");
                         }
-                        mIat.startListening(this);
-
-                        stop = false;
                 }
 
                 // 扩展用接口
@@ -139,13 +146,14 @@ public class DunnerHandler implements Runnable {
 
         // 获得应答用语
         private String getRepStr(String sourceStr) {
-                return this.outerDunnerService.interact(uuid, sourceStr);
+//                return this.outerDunnerService.interact(uuid, sourceStr);
+                return "null";
         }
 
         // 接收用户语音
         private int receiveStr(byte[] buffer) throws IOException {
                 int readLength;
-                readLength = inputStream.read(buffer, 0, buffer.length);
+                readLength = inputStream.read(buffer);
 //                log.info("buffer length:" + readLength);
                 return readLength;
         }
@@ -157,24 +165,29 @@ public class DunnerHandler implements Runnable {
                 return buffer.length;
         }
 
+        private String receiveUuid(int bufferLength) {
+                byte[] buffer = new byte[bufferLength];
+                int index = 0;
+                while (index < bufferLength) {
+                        try {
+                                index += inputStream.read(buffer, index, bufferLength - index);
+                        } catch (IOException e) {
+                                e.printStackTrace();
+                        }
+                }
+                String tmp = Hex.encodeHexString(buffer);
+                return tmp;
+        }
+
         @Override
         public void run() {
-                //注册会话
-                JSONObject jsonObject = null;
-                String resp = null;
-                try {
-//                        jsonObject = new JSONObject(outerDunnerService.reg(""));
-                        jsonObject = regClient("");
-                        this.uuid = jsonObject.getString("uuid");
-                        resp = jsonObject.getString("resp");
-                        sendStr(resp);
-                } catch (JSONException e) {
-                        e.printStackTrace();
-                } catch (IOException e) {
-                        e.printStackTrace();
-                }
+                // 获得UUID
+                this.uuid = receiveUuid(16);
 
-                //开始交互
+                // 获得通话信息缓存
+                this.callInfo = this.mongoJdbcTemplate.findObjectByParam(collectionName, "uuid", this.uuid);
+
+                // 开始交互
                 try {
                         byte[] buffer = new byte[4800];
                         //1.创建SpeechRecognizer对象
@@ -188,55 +201,35 @@ public class DunnerHandler implements Runnable {
                         mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
                         mIat.setParameter(SpeechConstant.SAMPLE_RATE, "8000");
 //                        mIat.setParameter(SpeechConstant.VAD_BOS, "1000");
-//                        mIat.setParameter(SpeechConstant.VAD_EOS,"1000");
+//                        mIat.setParameter(SpeechConstant.VAD_EOS,"3000");
 //                        mIat.setParameter(SpeechConstant.)
                         //3.开始听写 mRecoListener
                         mIat.startListening(mRecoListener);
                         int readLength = 0;
                         while (true && readLength != -1) {
-//                                readLength = socket.getInputStream().read(buffer, 0, 4800);
+//                                synchronized (monitor) {
                                 readLength = receiveStr(buffer);
 //                                cyclicBarrier.reset();
                                 if (readLength == -1) {
                                         break;
                                 } else if (!stop) {
-                                        mIat.writeAudio(buffer, 0, readLength);
-                                } /*else {
-                                        while (mIat.isListening()) {
-                                                mIat.stopListening();
-                                                try {
-                                                        Thread.sleep(100);
-                                                } catch (InterruptedException e) {
-                                                        e.printStackTrace();
-                                                }
-                                        }
-                                        stop = false;
                                         if (!mIat.isListening()) {
                                                 mIat.startListening(mRecoListener);
                                         }
+                                        log.debug("readLength :" + readLength);
                                         mIat.writeAudio(buffer, 0, readLength);
                                 }
-                                try {
-                                        cyclicBarrier.await(100, TimeUnit.MILLISECONDS);
-
-                                } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                } catch (BrokenBarrierException e) {
-                                        e.printStackTrace();
-                                } catch (TimeoutException e) {
-                                        e.printStackTrace();
-                                }*/
                         }
                         mIat.stopListening();
-                        try {
-                                Thread.sleep(10000);
+                        /*try {
+                                Thread.sleep(1000);
                         } catch (InterruptedException e) {
                                 e.printStackTrace();
-                        }
+                        }*/
                 } catch (IOException e) {
                         e.printStackTrace();
                 } finally {
-                        log.info("over!");
+                        log.debug("over!");
                         if (mIat.isListening()) {
                                 mIat.stopListening();
                                 mIat.destroy();

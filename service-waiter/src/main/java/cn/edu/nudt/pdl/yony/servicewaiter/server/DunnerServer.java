@@ -19,8 +19,8 @@ public class DunnerServer implements ApplicationContextAware {
 
         private ApplicationContext applicationContext;
 
-        @Autowired
-        private OuterDunnerService outerDunnerService;
+//        @Autowired
+//        private OuterDunnerService outerDunnerService;
 
 
         public DunnerServer() {
@@ -37,7 +37,7 @@ public class DunnerServer implements ApplicationContextAware {
                         System.out.println("Server start on port: 14800");
                         while (true) {
                                 Socket socket = ss.accept();
-                                DunnerHandler dh = applicationContext.getBean(DunnerHandler.class, new Object[]{socket, outerDunnerService});
+                                DunnerHandler dh = applicationContext.getBean(DunnerHandler.class, new Object[]{socket/*, outerDunnerService*/});
                                 Thread dunner = new Thread(dh);//new DunnerHandler(socket, outerDunnerService)
                                 dunner.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                                         @Override

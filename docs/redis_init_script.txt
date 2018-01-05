@@ -1,0 +1,8 @@
+// pull redis images
+$ docker pull redis:4
+
+// start instance of redis using appendonly modle
+$ docker run -p 6379:6379 -v $PWD/data:/data -n redis-server -d redis:4 redis-server --appendonly yes
+
+// start instance of redis client
+$ docker run -it redis:4 redis-cli -h 172.20.0.1
