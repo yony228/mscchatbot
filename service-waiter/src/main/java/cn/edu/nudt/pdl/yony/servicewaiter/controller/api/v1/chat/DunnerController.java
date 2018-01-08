@@ -2,6 +2,7 @@ package cn.edu.nudt.pdl.yony.servicewaiter.controller.api.v1.chat;
 
 import cn.edu.nudt.pdl.yony.servicewaiter.service.OuterDunnerService;
 import cn.edu.nudt.pdl.yony.servicewaiter.utils.MongoJdbcTemplate;
+import io.swagger.annotations.ApiOperation;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * email: yony228@163.com
@@ -33,6 +36,7 @@ public class DunnerController {
         @Value("${self.server.hostPort}")
         private String hostPort;
 
+//        @ApiOperation(value="获取席位", notes="为将要进行的对话获取席位")
         @RequestMapping(value = "/seat", method = RequestMethod.POST)
         public Map seat(@RequestParam HashMap<String, Object> params) {
                 Map<String, Object> rtVal = new HashMap();
@@ -42,6 +46,16 @@ public class DunnerController {
                         JSONObject jsonObject = new JSONObject(this.outerDunnerService.reg(""));
                         String uuid = jsonObject.getString("uuid");
                         String resp = jsonObject.getString("resp");
+
+                        Pattern p = Pattern.compile("#\\w+#");
+                        Matcher m = p.matcher(resp);
+                        while (m.find()) {
+                                if (jsonObject.has(m.group().replace("#", ""))) {
+                                        resp.replaceAll(m.group(), jsonObject.getString(m.group().replace("#", "")));
+                                }
+                        }
+
+
                         params.put("uuid", uuid);
                         //client info send to mongo
                         mongoJdbcTemplate.addMapObject(collectionName, params);

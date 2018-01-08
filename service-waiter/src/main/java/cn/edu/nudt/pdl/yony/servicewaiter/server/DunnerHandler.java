@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.Socket;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cn.edu.nudt.pdl.yony.servicewaiter.service.OuterDunnerService;
 import cn.edu.nudt.pdl.yony.servicewaiter.utils.MongoJdbcTemplate;
@@ -19,7 +21,13 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * email: yony228@163.com
@@ -49,9 +57,11 @@ public class DunnerHandler implements Runnable {
         private Map callInfo;
         @Value("${self.mongodb.template.database}")
         private String collectionName;
+        @Autowired
+        RestTemplate restTemplate;
 
         // 断句标志
-        private volatile boolean stop = false;
+//        private volatile boolean stop = false;
 //        private final CyclicBarrier cyclicBarrier = new CyclicBarrier(2);
 //        private Object monitor = new Object();
 
@@ -80,10 +90,14 @@ public class DunnerHandler implements Runnable {
                                 buffer.setLength(0);
                                 log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
                                 if (StringUtils.isNotBlank(receivedStr)) {
-                                        String sendStr = getRepStr(receivedStr);
-                                        log.debug("sendStr :" + sendStr);
                                         try {
+                                                long startTime = System.currentTimeMillis();
+                                                String sendStr = null;
+                                                sendStr = getRepStr(receivedStr);
+                                                log.info((System.currentTimeMillis() - startTime) + " sendStr :" + sendStr);
                                                 sendStr(sendStr);
+                                        } catch (JSONException e) {
+                                                e.printStackTrace();
                                         } catch (IOException e) {
                                                 e.printStackTrace();
                                         }
@@ -93,44 +107,23 @@ public class DunnerHandler implements Runnable {
 
                 //会话发生错误回调接口
                 public void onError(SpeechError error) {
-                        log.debug(error.getErrorDescription(true)); //获取错误码描述
+                        log.info(error.getErrorDescription(true)); //获取错误码描述
                 }
 
                 //开始录音
                 public void onBeginOfSpeech() {
-                        log.debug("开始！");
+                        log.info("开始！");
                 }
 
                 //音量值0~30
                 public void onVolumeChanged(int volume) {
-//                        log.debug("volume :" + volume);
-                        /*if (volume == 0) {
-                                i++;
-                        } else {
-                                i = 0;
-                        }
-                        if (i > 7) {
-                                stop = true;
-                                i = 0;
-                        }
-                        try {
-                                cyclicBarrier.await(100, TimeUnit.MILLISECONDS);
-                        } catch (InterruptedException e) {
-                                e.printStackTrace();
-                        } catch (BrokenBarrierException e) {
-                                e.printStackTrace();
-                        } catch (TimeoutException e) {
-                                e.printStackTrace();
-                        } finally {
-
-                        }*/
                 }
 
                 // 结束录音
                 public void onEndOfSpeech() {
 //                        synchronized (monitor) {
                         if (log.isDebugEnabled()) {
-                                log.debug("结束！");
+                                log.info("结束！");
                         }
                 }
 
@@ -140,15 +133,10 @@ public class DunnerHandler implements Runnable {
         };
 
         // 注册ChatBot
-        private JSONObject regClient(String name) throws JSONException {
-                return new JSONObject(this.outerDunnerService.reg(name));
-        }
+//        private JSONObject regClient(String name) throws JSONException {
+//                return new JSONObject(this.outerDunnerService.reg(name));
+//        }
 
-        // 获得应答用语
-        private String getRepStr(String sourceStr) {
-//                return this.outerDunnerService.interact(uuid, sourceStr);
-                return "null";
-        }
 
         // 接收用户语音
         private int receiveStr(byte[] buffer) throws IOException {
@@ -158,13 +146,46 @@ public class DunnerHandler implements Runnable {
                 return readLength;
         }
 
-        // 发送用语
-        private int sendStr(String sendSer) throws IOException {
-                byte[] buffer = sendSer.getBytes();
-//                outputStream.write(buffer, 0, buffer.length);
-                return buffer.length;
+        // 获得应答用语
+        private String getRepStr(String sourceStr) throws JSONException {
+                String repStr = this.outerDunnerService.interact(uuid, sourceStr);
+                repStr = new JSONObject(repStr).getString("resp");
+                Pattern p = Pattern.compile("#\\w+#");
+                Matcher m = p.matcher(repStr);
+                while (m.find()) {
+                        if (this.callInfo.containsKey(m.group().replace("#", ""))) {
+                                repStr = repStr.replaceAll(m.group(), this.callInfo.get(m.group().replace("#", "")).toString());
+                        }
+                }
+                return repStr;
         }
 
+        // 发送用语
+        private int sendStr(String sendSer) throws IOException, JSONException {
+//                byte[] buffer = sendSer.getBytes();
+//                outputStream.write(buffer, 0, buffer.length);
+//                MultiValueMap<String, String> bodyMap = new LinkedMultiValueMap<>();
+//                bodyMap.add("information", );
+
+                HttpHeaders headers = new HttpHeaders();
+                MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
+                headers.setContentType(type);
+                headers.add("Accept", MediaType.APPLICATION_JSON.toString());
+
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("information", sendSer);
+
+                HttpEntity<String> formEntity = new HttpEntity<>(jsonObj.toString(), headers);
+                JSONObject result = restTemplate.postForObject("http://192.168.3.243:5000/reply", formEntity, JSONObject.class);
+                try {
+                        log.info(result.getString("result"));
+                } catch (JSONException e) {
+                        e.printStackTrace();
+                }
+                return sendSer.length();//buffer.length;
+        }
+
+        // 接收UUID
         private String receiveUuid(int bufferLength) {
                 byte[] buffer = new byte[bufferLength];
                 int index = 0;
@@ -175,14 +196,15 @@ public class DunnerHandler implements Runnable {
                                 e.printStackTrace();
                         }
                 }
-                String tmp = Hex.encodeHexString(buffer);
+                String tmp = new String(buffer);// Hex.encodeHexString(buffer);
                 return tmp;
         }
 
         @Override
         public void run() {
+                log.info("start!");
                 // 获得UUID
-                this.uuid = receiveUuid(16);
+                this.uuid = receiveUuid(32);
 
                 // 获得通话信息缓存
                 this.callInfo = this.mongoJdbcTemplate.findObjectByParam(collectionName, "uuid", this.uuid);
@@ -212,24 +234,19 @@ public class DunnerHandler implements Runnable {
 //                                cyclicBarrier.reset();
                                 if (readLength == -1) {
                                         break;
-                                } else if (!stop) {
+                                } else {
                                         if (!mIat.isListening()) {
                                                 mIat.startListening(mRecoListener);
                                         }
-                                        log.debug("readLength :" + readLength);
+//                                        log.info("readLength :" + readLength);
                                         mIat.writeAudio(buffer, 0, readLength);
                                 }
                         }
                         mIat.stopListening();
-                        /*try {
-                                Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                                e.printStackTrace();
-                        }*/
                 } catch (IOException e) {
                         e.printStackTrace();
                 } finally {
-                        log.debug("over!");
+                        log.info("over!");
                         if (mIat.isListening()) {
                                 mIat.stopListening();
                                 mIat.destroy();
