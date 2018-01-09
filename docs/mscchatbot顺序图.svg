@@ -1,0 +1,511 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="processonSvg1000"
+     viewBox="62.46739482879639 11.21263837814331 1380.9983491897583 698.3396453857422" width="1380.9983491897583"
+     height="698.3396453857422">
+    <defs id="ProcessOnDefs1001">
+        <marker id="ProcessOnMarker1017" markerUnits="userSpaceOnUse" orient="auto" markerWidth="14.289086868996552"
+                markerHeight="19.055054660878554"
+                viewBox="-0.5877852522924731 -0.8090169943749475 14.289086868996552 19.055054660878554" refX="12.0"
+                refY="8.71851033606433">
+            <path id="ProcessOnPath1018" d="M0 0L12.0 8.71851033606433L0 17.43702067212866" stroke="#323232"
+                  stroke-width="2.0" fill="none" transform="matrix(1.0,0.0,0.0,1.0,0.0,0.0)"/>
+        </marker>
+        <marker id="ProcessOnMarker1030" markerUnits="userSpaceOnUse" orient="auto" markerWidth="16.23606797749979"
+                markerHeight="10.550836550532098"
+                viewBox="-1.0 -1.3763819204711736 16.23606797749979 10.550836550532098" refX="-1.0"
+                refY="3.8990363547948754">
+            <path id="ProcessOnPath1031" d="M12.0 3.8990363547948754L0.0 7.798072709589751V0.0Z" stroke="#323232"
+                  stroke-width="2.0" fill="#323232" transform="matrix(1.0,0.0,0.0,1.0,0.0,0.0)"/>
+        </marker>
+        <marker id="ProcessOnMarker1037" markerUnits="userSpaceOnUse" orient="auto" markerWidth="14.289086868996552"
+                markerHeight="19.055054660878554"
+                viewBox="-0.5877852522924731 -0.8090169943749475 14.289086868996552 19.055054660878554" refX="12.0"
+                refY="8.71851033606433">
+            <path id="ProcessOnPath1038" d="M0 0L12.0 8.71851033606433L0 17.43702067212866" stroke="#323232"
+                  stroke-width="2.0" fill="none" transform="matrix(1.0,0.0,0.0,1.0,0.0,0.0)"/>
+        </marker>
+        <marker id="ProcessOnMarker1046" markerUnits="userSpaceOnUse" orient="auto" markerWidth="14.289086868996552"
+                markerHeight="19.055054660878554"
+                viewBox="-0.5877852522924731 -0.8090169943749475 14.289086868996552 19.055054660878554" refX="12.0"
+                refY="8.71851033606433">
+            <path id="ProcessOnPath1047" d="M0 0L12.0 8.71851033606433L0 17.43702067212866" stroke="#323232"
+                  stroke-width="2.0" fill="none" transform="matrix(1.0,0.0,0.0,1.0,0.0,0.0)"/>
+        </marker>
+        <marker id="ProcessOnMarker1053" markerUnits="userSpaceOnUse" orient="auto" markerWidth="16.23606797749979"
+                markerHeight="10.550836550532098"
+                viewBox="-1.0 -1.3763819204711736 16.23606797749979 10.550836550532098" refX="-1.0"
+                refY="3.8990363547948754">
+            <path id="ProcessOnPath1054" d="M12.0 3.8990363547948754L0.0 7.798072709589751V0.0Z" stroke="#323232"
+                  stroke-width="2.0" fill="#323232" transform="matrix(1.0,0.0,0.0,1.0,0.0,0.0)"/>
+        </marker>
+        <marker id="ProcessOnMarker1060" markerUnits="userSpaceOnUse" orient="auto" markerWidth="14.289086868996552"
+                markerHeight="19.055054660878554"
+                viewBox="-0.5877852522924731 -0.8090169943749475 14.289086868996552 19.055054660878554" refX="12.0"
+                refY="8.71851033606433">
+            <path id="ProcessOnPath1061" d="M0 0L12.0 8.71851033606433L0 17.43702067212866" stroke="#323232"
+                  stroke-width="2.0" fill="none" transform="matrix(1.0,0.0,0.0,1.0,0.0,0.0)"/>
+        </marker>
+        <marker id="ProcessOnMarker1067" markerUnits="userSpaceOnUse" orient="auto" markerWidth="16.23606797749979"
+                markerHeight="10.550836550532098"
+                viewBox="-1.0 -1.3763819204711736 16.23606797749979 10.550836550532098" refX="-1.0"
+                refY="3.8990363547948754">
+            <path id="ProcessOnPath1068" d="M12.0 3.8990363547948754L0.0 7.798072709589751V0.0Z" stroke="#323232"
+                  stroke-width="2.0" fill="#323232" transform="matrix(1.0,0.0,0.0,1.0,0.0,0.0)"/>
+        </marker>
+        <marker id="ProcessOnMarker1107" markerUnits="userSpaceOnUse" orient="auto" markerWidth="10.0"
+                markerHeight="10.0" viewBox="-1.0 -1.0 10.0 10.0" refX="8.0" refY="4.0">
+            <path id="ProcessOnPath1108" d="M0 4.0A4.0 4.0 0 0 1 4.0 0A4.0 4.0 0 1 1 0 4.0" stroke="#323232"
+                  stroke-width="2.0" fill="#fff"/>
+        </marker>
+        <marker id="ProcessOnMarker1142" markerUnits="userSpaceOnUse" orient="auto" markerWidth="10.0"
+                markerHeight="10.0" viewBox="-1.0 -1.0 10.0 10.0" refX="8.0" refY="4.0">
+            <path id="ProcessOnPath1143" d="M0 4.0A4.0 4.0 0 0 1 4.0 0A4.0 4.0 0 1 1 0 4.0" stroke="#323232"
+                  stroke-width="2.0" fill="#fff"/>
+        </marker>
+        <marker id="ProcessOnMarker1146" markerUnits="userSpaceOnUse" orient="auto" markerWidth="10.0"
+                markerHeight="10.0" viewBox="-1.0 -1.0 10.0 10.0" refX="8.0" refY="4.0">
+            <path id="ProcessOnPath1147" d="M0 4.0A4.0 4.0 0 0 1 4.0 0A4.0 4.0 0 1 1 0 4.0" stroke="#323232"
+                  stroke-width="2.0" fill="#fff"/>
+        </marker>
+        <marker id="ProcessOnMarker1157" markerUnits="userSpaceOnUse" orient="auto" markerWidth="10.0"
+                markerHeight="10.0" viewBox="-1.0 -1.0 10.0 10.0" refX="8.0" refY="4.0">
+            <path id="ProcessOnPath1158" d="M0 4.0A4.0 4.0 0 0 1 4.0 0A4.0 4.0 0 1 1 0 4.0" stroke="#323232"
+                  stroke-width="2.0" fill="#fff"/>
+        </marker>
+    </defs>
+    <g id="ProcessOnG1002">
+        <path id="ProcessOnPath1003"
+              d="M62.46739482879639 11.21263837814331H1443.4657440185547V709.5522837638855H62.46739482879639V11.21263837814331Z"
+              fill="none"/>
+        <g id="ProcessOnG1004">
+            <g id="ProcessOnG1005" transform="matrix(1.0,0.0,0.0,1.0,461.7663860321045,146.12826824188232)"
+               opacity="1.0">
+                <path id="ProcessOnPath1006" d="M56.752906799316406 30.0L56.752906799316406 429.93495178222656"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="2.0 3.0" opacity="1.0" fill="none"/>
+                <path id="ProcessOnPath1007" d="M0.0 0.0L113.50581359863281 0.0L113.50581359863281 30.0L0.0 30.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <g id="ProcessOnG1008" transform="matrix(1.0,0.0,0.0,1.0,10.0,6.875)">
+                    <text id="ProcessOnText1009" fill="#000000" font-size="13" x="45.752906799316406" y="13.325"
+                          font-family="微软雅黑" font-weight="normal" font-style="normal" text-decoration="none"
+                          family="微软雅黑" text-anchor="middle" size="13">mscchatbot
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1010" transform="matrix(1.0,0.0,0.0,1.0,734.0134792327881,146.12826824188232)"
+               opacity="1.0">
+                <path id="ProcessOnPath1011" d="M56.752906799316406 30.0L56.752906799316406 429.93495178222656"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="2.0 3.0" opacity="1.0" fill="none"/>
+                <path id="ProcessOnPath1012" d="M0.0 0.0L113.50581359863281 0.0L113.50581359863281 30.0L0.0 30.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <g id="ProcessOnG1013" transform="matrix(1.0,0.0,0.0,1.0,10.0,6.875)">
+                    <text id="ProcessOnText1014" fill="#000000" font-size="13" x="45.752906799316406" y="13.325"
+                          font-family="微软雅黑" font-weight="normal" font-style="normal" text-decoration="none"
+                          family="微软雅黑" text-anchor="middle" size="13">outservice
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1015">
+                <path id="ProcessOnPath1016"
+                      d="M776.6397228240967 345.6752767562866L654.6397228240967 345.6752767562866L654.6397228240967 345.6752767562866L532.6397228240967 345.6752767562866"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" fill="none"
+                      marker-end="url(#ProcessOnMarker1017)"/>
+                <g id="ProcessOnG1019" transform="matrix(1.0,0.0,0.0,1.0,654.6397228240967,337.5502767562866)">
+                    <path id="ProcessOnPath1020" d="M0 0H124.0V16.25H0Z" fill="#fff"
+                          transform="matrix(1.0,0.0,0.0,1.0,-62.0,0.0)"/>
+                    <text id="ProcessOnText1021" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="normal" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="middle" size="13">2.持续语音流(socket)
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1022" transform="matrix(1.0,0.0,0.0,1.0,503.5192928314209,330.1282682418823)"
+               opacity="1.0">
+                <path id="ProcessOnPath1023"
+                      d="M0.0 4.0Q0.0 0.0 4.0 0.0L26.0 0.0Q30.0 0.0 30.0 4.0L30.0 213.5470085144043Q30.0 217.5470085144043 26.0 217.5470085144043L4.0 217.5470085144043Q0.0 217.5470085144043 0.0 213.5470085144043L0.0 4.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+            </g>
+            <g id="ProcessOnG1024" transform="matrix(1.0,0.0,0.0,1.0,775.7663860321045,221.12826824188232)"
+               opacity="1.0">
+                <path id="ProcessOnPath1025"
+                      d="M0.0 4.0Q0.0 0.0 4.0 0.0L26.0 0.0Q30.0 0.0 30.0 4.0L30.0 36.0Q30.0 40.0 26.0 40.0L4.0 40.0Q0.0 40.0 0.0 36.0L0.0 4.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+            </g>
+            <g id="ProcessOnG1026" transform="matrix(1.0,0.0,0.0,1.0,503.5192928314209,218.12826824188232)"
+               opacity="1.0">
+                <path id="ProcessOnPath1027"
+                      d="M0.0 4.0Q0.0 0.0 4.0 0.0L26.0 0.0Q30.0 0.0 30.0 4.0L30.0 39.0Q30.0 43.0 26.0 43.0L4.0 43.0Q0.0 43.0 0.0 39.0L0.0 4.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+            </g>
+            <g id="ProcessOnG1028">
+                <path id="ProcessOnPath1029"
+                      d="M776.5191080656685 226.35931704293796L654.895653848203 226.35931704293796L654.895653848203 228.12826824188232L548.5082676082371 228.12826824188232"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" fill="none"
+                      marker-end="url(#ProcessOnMarker1030)"/>
+                <g id="ProcessOnG1032" transform="matrix(1.0,0.0,0.0,1.0,661.6292122374807,218.23431704293796)">
+                    <path id="ProcessOnPath1033" d="M0 0H68.0V16.25H0Z" fill="#fff"
+                          transform="matrix(1.0,0.0,0.0,1.0,-34.0,0.0)"/>
+                    <text id="ProcessOnText1034" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="normal" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="middle" size="13">1.注册(rest)
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1035">
+                <path id="ProcessOnPath1036"
+                      d="M532.7736974203123 257.1752767562866L654.5559416741692 257.1752767562866L654.5559416741692 256.9651760396583L776.3381859280262 256.9651760396583"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="10.0 4.0" fill="none"
+                      marker-end="url(#ProcessOnMarker1037)"/>
+                <g id="ProcessOnG1039" transform="matrix(1.0,0.0,0.0,1.0,654.5559416741692,248.94522639797242)">
+                    <path id="ProcessOnPath1040" d="M0 0H53.0V16.25H0Z" fill="#fff"
+                          transform="matrix(1.0,0.0,0.0,1.0,-26.5,0.0)"/>
+                    <text id="ProcessOnText1041" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="normal" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="middle" size="13">返回uuid
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1042" transform="matrix(1.0,0.0,0.0,1.0,775.7663860321045,332.1427412033081)"
+               opacity="1.0">
+                <path id="ProcessOnPath1043"
+                      d="M0.0 4.0Q0.0 0.0 4.0 0.0L26.0 0.0Q30.0 0.0 30.0 4.0L30.0 219.53253555297852Q30.0 223.53253555297852 26.0 223.53253555297852L4.0 223.53253555297852Q0.0 223.53253555297852 0.0 219.53253555297852L0.0 4.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+            </g>
+            <g id="ProcessOnG1044">
+                <path id="ProcessOnPath1045"
+                      d="M776.6397228240967 384.6752767562866L654.6397228240967 384.6752767562866L654.6397228240967 384.6752767562866L532.6397228240967 384.6752767562866"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" fill="none"
+                      marker-end="url(#ProcessOnMarker1046)"/>
+                <g id="ProcessOnG1048" transform="matrix(1.0,0.0,0.0,1.0,654.6397228240967,376.5502767562866)">
+                    <path id="ProcessOnPath1049" d="M0 0H124.0V16.25H0Z" fill="#fff"
+                          transform="matrix(1.0,0.0,0.0,1.0,-62.0,0.0)"/>
+                    <text id="ProcessOnText1050" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="normal" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="middle" size="13">2.持续语音流(socket)
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1051">
+                <path id="ProcessOnPath1052"
+                      d="M532.6397228240967 419.6752767562866L654.6397228240967 419.6752767562866L654.6397228240967 421.6752767562866L761.4036548465969 421.6752767562866"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" fill="none"
+                      marker-end="url(#ProcessOnMarker1053)"/>
+                <g id="ProcessOnG1055" transform="matrix(1.0,0.0,0.0,1.0,648.0216888353468,411.5502767562866)">
+                    <path id="ProcessOnPath1056" d="M0 0H94.0V16.25H0Z" fill="#fff"
+                          transform="matrix(1.0,0.0,0.0,1.0,-47.0,0.0)"/>
+                    <text id="ProcessOnText1057" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="normal" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="middle" size="13">3.回复文本(rest)
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1058">
+                <path id="ProcessOnPath1059"
+                      d="M776.6397228240967 459.6752767562866L654.6397228240967 459.6752767562866L654.6397228240967 460.6752767562866L532.6397228240967 460.6752767562866"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" fill="none"
+                      marker-end="url(#ProcessOnMarker1060)"/>
+                <g id="ProcessOnG1062" transform="matrix(1.0,0.0,0.0,1.0,654.6397228240967,452.0502767562866)">
+                    <path id="ProcessOnPath1063" d="M0 0H124.0V16.25H0Z" fill="#fff"
+                          transform="matrix(1.0,0.0,0.0,1.0,-62.0,0.0)"/>
+                    <text id="ProcessOnText1064" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="normal" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="middle" size="13">2.持续语音流(socket)
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1065">
+                <path id="ProcessOnPath1066"
+                      d="M774.6397228240967 498.6752767562866L653.6397228240967 498.6752767562866L653.6397228240967 498.6752767562866L547.8757908015965 498.6752767562866"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" fill="none"
+                      marker-end="url(#ProcessOnMarker1067)"/>
+                <g id="ProcessOnG1069" transform="matrix(1.0,0.0,0.0,1.0,661.2577568128465,490.5502767562866)">
+                    <path id="ProcessOnPath1070" d="M0 0H94.0V16.25H0Z" fill="#fff"
+                          transform="matrix(1.0,0.0,0.0,1.0,-47.0,0.0)"/>
+                    <text id="ProcessOnText1071" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="normal" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="middle" size="13">4.挂机结束(rest)
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1072" transform="matrix(1.0,0.0,0.0,1.0,975.6397228240967,40.67527675628662)"
+               opacity="1.0">
+                <path id="ProcessOnPath1073"
+                      d="M0.0 0.0L431.826021194458 0.0L447.826021194458 16.0L447.826021194458 436.0747232437134L0.0 436.0747232437134L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1074" d="M431.826021194458 0.0L431.826021194458 16.0L447.826021194458 16.0"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1075"
+                      d="M0.0 0.0L431.826021194458 0.0L447.826021194458 16.0L447.826021194458 436.0747232437134L0.0 436.0747232437134L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="none"/>
+                <g id="ProcessOnG1076" transform="matrix(1.0,0.0,0.0,1.0,10.0,-9.46263837814331)">
+                    <text id="ProcessOnText1077" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">１．注册（rest）:
+                    </text>
+                    <text id="ProcessOnText1078" fill="#000000" font-size="13" x="0.0" y="29.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">method: head
+                    </text>
+                    <text id="ProcessOnText1079" fill="#000000" font-size="13" x="0.0" y="45.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">mimetype: text/plain
+                    </text>
+                    <text id="ProcessOnText1080" fill="#000000" font-size="13" x="0.0" y="62.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">url:
+                        http://{hostname}/api/v1/service-waiter/chat/dunner/reg/{id}
+                    </text>
+                    <text id="ProcessOnText1081" fill="#000000" font-size="13" x="0.0" y="78.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">param:
+                    </text>
+                    <text id="ProcessOnText1082" fill="#000000" font-size="13" x="0.0" y="94.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">　　　 infoType: out(外部)/inline(param对)
+                    </text>
+                    <text id="ProcessOnText1083" fill="#000000" font-size="13" x="0.0" y="110.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">　　　 uri: 外部uri形式提供，如数据库等
+                    </text>
+                    <text id="ProcessOnText1084" fill="#000000" font-size="13" x="0.0" y="127.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">schameVersion: 外部数据源版本
+                    </text>
+                    <text id="ProcessOnText1085" fill="#000000" font-size="13" x="0.0" y="143.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">titile: 欠款人头衔
+                    </text>
+                    <text id="ProcessOnText1086" fill="#000000" font-size="13" x="0.0" y="159.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">familyname: 欠款人姓
+                    </text>
+                    <text id="ProcessOnText1087" fill="#000000" font-size="13" x="0.0" y="175.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">tailname: 欠款人名
+                    </text>
+                    <text id="ProcessOnText1088" fill="#000000" font-size="13" x="0.0" y="192.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">idType: 欠款人证件类型
+                    </text>
+                    <text id="ProcessOnText1089" fill="#000000" font-size="13" x="0.0" y="208.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">id: 欠款人证件号
+                    </text>
+                    <text id="ProcessOnText1090" fill="#000000" font-size="13" x="0.0" y="224.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">expireDate: 到期时间
+                    </text>
+                    <text id="ProcessOnText1091" fill="#000000" font-size="13" x="0.0" y="240.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">phoneNum: 欠款人电话号码
+                    </text>
+                    <text id="ProcessOnText1092" fill="#000000" font-size="13" x="0.0" y="257.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">callName: 别叫人姓名
+                    </text>
+                    <text id="ProcessOnText1093" fill="#000000" font-size="13" x="0.0" y="273.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">callNum: 被叫号码
+                    </text>
+                    <text id="ProcessOnText1094" fill="#000000" font-size="13" x="0.0" y="289.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">callRel: 被叫人和欠款人关系
+                    </text>
+                    <text id="ProcessOnText1095" fill="#000000" font-size="13" x="0.0" y="305.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">　　　 amount: 逾期金额
+                    </text>
+                    <text id="ProcessOnText1096" fill="#000000" font-size="13" x="0.0" y="322.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">cardTail4: 卡号后４位
+                    </text>
+                    <text id="ProcessOnText1097" fill="#000000" font-size="13" x="0.0" y="338.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">return:
+                    </text>
+                    <text id="ProcessOnText1098" fill="#000000" font-size="13" x="0.0" y="354.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">{
+                    </text>
+                    <text id="ProcessOnText1099" fill="#000000" font-size="13" x="0.0" y="370.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">result: true/false,
+                    </text>
+                    <text id="ProcessOnText1100" fill="#000000" font-size="13" x="0.0" y="387.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">uuid: 唯一编号,
+                    </text>
+                    <text id="ProcessOnText1101" fill="#000000" font-size="13" x="0.0" y="403.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">resp: 开场语,
+                    </text>
+                    <text id="ProcessOnText1102" fill="#000000" font-size="13" x="0.0" y="419.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">hostIp: 后续语音流socket地址,
+                    </text>
+                    <text id="ProcessOnText1103" fill="#000000" font-size="13" x="0.0" y="435.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">hostPort: 后续语音流port号
+                    </text>
+                    <text id="ProcessOnText1104" fill="#000000" font-size="13" x="0.0" y="452.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">}
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1105">
+                <path id="ProcessOnPath1106"
+                      d="M695.0315737165479 225.4230715661325C802.2397228240967 183.8752767562866 860.0397228240967 161.47527675628663 975.6397228240967 116.67527675628662"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="2.0 3.0" fill="none"
+                      marker-start="url(#ProcessOnMarker1107)"/>
+            </g>
+            <g id="ProcessOnG1109" transform="matrix(1.0,0.0,0.0,1.0,82.46739482879639,400.42718172073364)"
+               opacity="1.0">
+                <path id="ProcessOnPath1110"
+                      d="M0.0 0.0L352.826021194458 0.0L368.826021194458 16.0L368.826021194458 175.63603830337524L0.0 175.63603830337524L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1111" d="M352.826021194458 0.0L352.826021194458 16.0L368.826021194458 16.0"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1112"
+                      d="M0.0 0.0L352.826021194458 0.0L368.826021194458 16.0L368.826021194458 175.63603830337524L0.0 175.63603830337524L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="none"/>
+                <g id="ProcessOnG1113" transform="matrix(1.0,0.0,0.0,1.0,10.0,-1.556980848312378)">
+                    <text id="ProcessOnText1114" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">3．回复文本（rest）:
+                    </text>
+                    <text id="ProcessOnText1115" fill="#000000" font-size="13" x="0.0" y="29.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">method:post
+                    </text>
+                    <text id="ProcessOnText1116" fill="#000000" font-size="13" x="0.0" y="45.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">mimetype: text/plain
+                    </text>
+                    <text id="ProcessOnText1117" fill="#000000" font-size="13" x="0.0" y="62.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">url:http://(待定)
+                    </text>
+                    <text id="ProcessOnText1118" fill="#000000" font-size="13" x="0.0" y="78.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">param:
+                    </text>
+                    <text id="ProcessOnText1119" fill="#000000" font-size="13" x="0.0" y="94.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">　　　 text:文本内容
+                    </text>
+                    <text id="ProcessOnText1120" fill="#000000" font-size="13" x="0.0" y="110.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">uuid:唯一编号
+                    </text>
+                    <text id="ProcessOnText1121" fill="#000000" font-size="13" x="0.0" y="127.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">return:
+                    </text>
+                    <text id="ProcessOnText1122" fill="#000000" font-size="13" x="0.0" y="143.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">{
+                    </text>
+                    <text id="ProcessOnText1123" fill="#000000" font-size="13" x="0.0" y="159.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">result:true/false
+                    </text>
+                    <text id="ProcessOnText1124" fill="#000000" font-size="13" x="0.0" y="175.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">}
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1125" transform="matrix(1.0,0.0,0.0,1.0,975.6397228240967,523.9162454605103)"
+               opacity="1.0">
+                <path id="ProcessOnPath1126"
+                      d="M0.0 0.0L377.826021194458 0.0L393.826021194458 16.0L393.826021194458 165.63603830337524L0.0 165.63603830337524L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1127" d="M377.826021194458 0.0L377.826021194458 16.0L393.826021194458 16.0"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1128"
+                      d="M0.0 0.0L377.826021194458 0.0L393.826021194458 16.0L393.826021194458 165.63603830337524L0.0 165.63603830337524L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="none"/>
+                <g id="ProcessOnG1129" transform="matrix(1.0,0.0,0.0,1.0,10.0,1.568019151687622)">
+                    <text id="ProcessOnText1130" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">4．挂机（rest）:
+                    </text>
+                    <text id="ProcessOnText1131" fill="#000000" font-size="13" x="0.0" y="29.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">method: delete
+                    </text>
+                    <text id="ProcessOnText1132" fill="#000000" font-size="13" x="0.0" y="45.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">mimetype: text/plain
+                    </text>
+                    <text id="ProcessOnText1133" fill="#000000" font-size="13" x="0.0" y="62.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">url:http://{hostname}/api/v1/service-waiter/chat/uuid
+                    </text>
+                    <text id="ProcessOnText1134" fill="#000000" font-size="13" x="0.0" y="78.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">param:
+                    </text>
+                    <text id="ProcessOnText1135" fill="#000000" font-size="13" x="0.0" y="94.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">　　　 null
+                    </text>
+                    <text id="ProcessOnText1136" fill="#000000" font-size="13" x="0.0" y="110.825" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">return:
+                    </text>
+                    <text id="ProcessOnText1137" fill="#000000" font-size="13" x="0.0" y="127.075" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">{
+                    </text>
+                    <text id="ProcessOnText1138" fill="#000000" font-size="13" x="0.0" y="143.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">result:true/false
+                    </text>
+                    <text id="ProcessOnText1139" fill="#000000" font-size="13" x="0.0" y="159.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">}
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1140">
+                <path id="ProcessOnPath1141"
+                      d="M598.2817521163176 424.18693955052436C544.3968128204345 448.84230651855466 513.3623472213745 463.0423065185547 451.2934160232544 491.4423065185547"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="2.0 3.0" fill="none"
+                      marker-start="url(#ProcessOnMarker1142)"/>
+            </g>
+            <g id="ProcessOnG1144">
+                <path id="ProcessOnPath1145"
+                      d="M708.4473474725876 499.5261543998101C810.0397228240967 520.8752767562867 865.2397228240967 532.4752767562866 975.6397228240967 555.6752767562866"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="2.0 3.0" fill="none"
+                      marker-start="url(#ProcessOnMarker1146)"/>
+            </g>
+            <g id="ProcessOnG1148" transform="matrix(1.0,0.0,0.0,1.0,97.67664527893066,208.21108436584473)"
+               opacity="1.0">
+                <path id="ProcessOnPath1149"
+                      d="M0.0 0.0L322.40752029418945 0.0L338.40752029418945 16.0L338.40752029418945 79.93165683746338L0.0 79.93165683746338L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1150" d="M322.40752029418945 0.0L322.40752029418945 16.0L338.40752029418945 16.0"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="#ffffff"/>
+                <path id="ProcessOnPath1151"
+                      d="M0.0 0.0L322.40752029418945 0.0L338.40752029418945 16.0L338.40752029418945 79.93165683746338L0.0 79.93165683746338L0.0 0.0Z"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="none" opacity="1.0" fill="none"/>
+                <g id="ProcessOnG1152" transform="matrix(1.0,0.0,0.0,1.0,10.0,23.71582841873169)">
+                    <text id="ProcessOnText1153" fill="#000000" font-size="13" x="0.0" y="13.325" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">２．持续语音流（socket）:
+                    </text>
+                    <text id="ProcessOnText1154" fill="#000000" font-size="13" x="0.0" y="29.575" font-family="微软雅黑"
+                          font-weight="bold" font-style="normal" text-decoration="none" family="微软雅黑"
+                          text-anchor="start" size="13">流开始时前１２８位为uuid，后续为语音流
+                    </text>
+                </g>
+            </g>
+            <g id="ProcessOnG1155">
+                <path id="ProcessOnPath1156"
+                      d="M585.631642350267 342.742857379877C530.5131126403809 311.57307758331297 499.0367969512939 293.773077583313 436.0841655731201 258.173077583313"
+                      stroke="#323232" stroke-width="2.0" stroke-dasharray="2.0 3.0" fill="none"
+                      marker-start="url(#ProcessOnMarker1157)"/>
+            </g>
+        </g>
+    </g>
+</svg>
