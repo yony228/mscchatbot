@@ -5,46 +5,49 @@
     <actors>
         <actor id="0" desc="开头语">
             <map condition="1" desc="any" next_state="1">
-                <output>您好，请问您是***先生/女士吗？</output>
+                <output>您好，请问您是张三先生吗？</output>
             </map>
         </actor>
         <actor id="1">
             <map condition="1" desc="是的" next_state="2">
                 <output>
-                    ***先生/女士，您好！我是海保人寿的服务人员，工号001，感谢您于*年*月*日通过银行购买了我公司的海保人寿好生活定期寿险，为了维护您的权益，跟您做个电话回访，需占用您3-5分钟的时间，请问您现在方便接听电话吗？
+                    #insurerName##insurerTitle#，您好！我是海保人寿的服务人员，工号#chatbotNum#，感谢您于#insureDate#通过银行购买了我公司的海保人寿好生活定期寿险，为了维护您的权益，跟您做个电话回访，需占用您3-5分钟的时间，请问您现在方便接听电话吗？
                 </output>
             </map>
             <map condition="2" desc="不是/不在" next_state="12">
                 <output>抱歉，打扰您了。感谢您的接听，祝您生活愉快，再见！</output>
             </map>
-            <map condition="3" desc="你是谁？/你哪里？/什么事情？" next_state="1">
-                <output>先生/女士，您好！我是海保人寿的服务人员，有一些业务上的问题需要联系***先生/女士，请问您是***先生/女士吗？</output>
+            <map condition="3" desc="你是谁？/你哪里？/什么事情？" next_state="1" max_retry_time="3" max_condition="2">
+                <output>#insurerTitle#，您好！我是海保人寿的服务人员，有一些业务上的问题需要联系#insurerName##insurerTitle#，请问您是#insurerName##insurerTitle#吗？</output>
             </map>
-            <map condition="4" desc="其他" next_state="1">
-                <output>抱歉，我不明白您说的意思，请问您是***先生/女士吗？</output>
+            <map condition="4" desc="其他" next_state="1" max_retry_time="2" max_condition="2">
+                <output>抱歉，我不明白您说的意思，请问您是#insurerName##insurerTitle#吗？</output>
             </map>
         </actor>
         <actor id="2" desc="确认客户是否购买保险及询问客户是否方便接受回访">
             <map condition="1" desc="可以" next_state="3">
                 <output>谢谢您，我们的电话回访内容会进行全程录音。为了确保是客户本人接受回访，需要输入您的身份证号码后四位。谢谢！</output>
             </map>
-            <map condition="2" desc="不方便/我没空/我在忙/我在做饭" next_state="12">
-                <output>抱歉，打扰您了，请问我尽快给您说下可以吗？（如客户表示可以，则表达“谢谢您”后转3；如客户表示不可以，则告知客户“好的，改次再联系您，先不打扰您了，祝您生活愉快，再见！”）</output>
+            <map condition="2" desc="不需要" next_state="12">
+                <output>好的，改次再联系您，先不打扰您了，祝您生活愉快，再见！</output>
+            </map>
+            <map condition="3" desc="不方便/我没空/我在忙/我在做饭" next_state="2" max_retry_time="2" max_condition="2">
+                <output>抱歉，打扰您了，请问我尽快给您说下可以吗？</output>
             </map>
             <map condition="3" desc="我现在在开车" next_state="12">
-                <output>抱歉，打扰您了，请您安全驾驶，我们改次再联系您。（如客户同意，则礼貌结束通话：感谢您的接听，祝您生活愉快，再见！；如客户表示可以继续回访，则告知客户“请您安全驾驶，我们改次再联系您。祝您生活愉快，再见！”）</output>
+                <output>抱歉，打扰您了，请您安全驾驶，我们改次再联系您。</output>
             </map>
-            <map condition="4" desc="不用/不用回访" next_state="12">
-                <output>十分感谢您选择我们公司的产品，为了更好的维护您的权益，也为了让每一位客户都能更具体的了解所购买的产品，还是希望能耽误您2分钟时间，为您做一个简短的回访，好吗？（如客户表示可以，则表达“谢谢您”后转3；如客户坚持不用回访，则告知客户：好的，我会做好记录，后续安排工作人员与您联系。感谢您的接听，祝您生活愉快，再见！）</output>
+            <map condition="4" desc="不用/不用回访" next_state="2" max_retry_time="2" max_condition="2">
+                <output>十分感谢您选择我们公司的产品，为了更好的维护您的权益，也为了让每一位客户都能更具体的了解所购买的产品，还是希望能耽误您2分钟时间，为您做一个简短的回访，好吗？</output>
             </map>
-            <map condition="5" desc="不要再给我打电话了" next_state="2">
-                <output>为了更好的维护您的权益，也为了让每一位客户都能更具体的了解所购买的产品，还是希望能耽误您2分钟时间，为您做一个简短的回访，好吗？（如客户表示可以，则表达“谢谢您”后转3；如客户坚持不用回访，则告知客户：好的，我会做好记录，后续安排工作人员与您联系。感谢您的接听，祝您生活愉快，再见！）</output>
+            <map condition="5" desc="不要再给我打电话了" next_state="2" max_retry_time="2" max_condition="2">
+                <output>为了更好的维护您的权益，也为了让每一位客户都能更具体的了解所购买的产品，还是希望能耽误您2分钟时间，为您做一个简短的回访，好吗？</output>
             </map>
-            <map condition="6" desc="不知道购买的是保险" next_state="2">
-                <output>您**年**月**日在***代理人那里购买了一份**保险产品。为了维护您的权益，给您做个电话回访，请问现在方便吗？</output>
+            <map condition="6" desc="不知道购买的是保险" next_state="2" max_retry_time="2" max_condition="2">
+                <output>您#insureDate#在***代理人那里购买了一份#insuranceType#保险产品。为了维护您的权益，给您做个电话回访，请问现在方便吗？</output>
             </map>
-            <map condition="7" desc="其他" next_state="2">
-                <output>则重复确认：抱歉，我不明白您说的意思，我是海保人寿的服务人员，工号001，感谢您于*年*月*日通过银行购买了我公司的海保人寿好生活定期寿险，为了维护您的权益，跟您做个电话回访，需占用您3-5分钟的时间，请问您现在方便接听电话吗？</output>
+            <map condition="7" desc="其他(重复确认)" next_state="2" max_retry_time="2" max_condition="2">
+                <output>抱歉，我不明白您说的意思，我是海保人寿的服务人员，工号#chatbotNum#，感谢您于#insureDate#通过银行购买了我公司的海保人寿好生活定期寿险，为了维护您的权益，跟您做个电话回访，需占用您3-5分钟的时间，请问您现在方便接听电话吗？</output>
             </map>
         </actor>
         <actor id="3" desc="验证客户身份">
@@ -52,12 +55,15 @@
                 <output>感谢您的配合,请问您投保时是否接受了录音录像、录音录像中陈述是否为您真实意思表达？</output>
             </map>
             <map condition="2" desc="客户输入不正确" next_state="3">
-                <output>抱歉，输入不正确，请您重新输入，谢谢！</output>
+                <output>抱歉，输入不正确，请您再说一遍，谢谢！</output>
             </map>
-            <map condition="3" desc="为什么要输入？/不用输入了，就是本人" next_state="3">
-                <output>这是为了维护您的信息安全，所以需要与您核实一下，请您输入您的身份证号码后四位。谢谢！</output>
+            <map condition="3" desc="不愿回访了" next_state="12">
+                <output>不好意思,您说的号码不正确,我们会做好记录,下次再与您联系</output>
             </map>
-            <map condition="4" desc="其他" next_state="3">
+            <map condition="3" desc="为什么要输入？/不用输入了，就是本人" next_state="3" max_retry_time="3" max_condition="3">
+                <output>这是为了维护您的信息安全，所以需要与您核实一下，请报下您的身份证号码后四位。谢谢！</output>
+            </map>
+            <map condition="4" desc="其他" next_state="3" max_retry_time="2" max_condition="3">
                 <output>抱歉，我不明白您说的意思，为了确保是客户本人接受回访，需要输入您的身份证号码后四位。谢谢！</output>
             </map>
         </actor>
@@ -68,7 +74,7 @@
             <map condition="2" desc="否定应答" next_state="12">
                 <output>抱歉，打扰您了！后续安排工作人员与您联系，完成双录之后我们再进行回访。感谢您的接听，祝您生活愉快，再见！</output>
             </map>
-            <map condition="3" desc="其他" next_state="4">
+            <map condition="3" desc="其他" next_state="4" max_retry_time="2" max_condition="2">
                 <output>抱歉，我不明白您说的意思，请问您投保时是否接受了录音录像、录音录像中陈述是否为您真实意思表达？</output>
             </map>
         </actor>
@@ -79,13 +85,13 @@
             <map condition="2" desc="否定应答" next_state="12">
                 <output>抱歉，打扰您了，我们会安排工作人员尽快将保险合同送给您。收到保险合同后请您在回执上亲笔签名及签日期，感谢您的接听，祝您生活愉快，再见！</output>
             </map>
-            <map condition="3" desc="什么合同？" next_state="5">
+            <map condition="3" desc="什么合同？" next_state="5" max_retry_time="3" max_condition="2">
                 <output>保险合同上有您的个人信息、您购买保险的名称，上面还有我们公司的盖章。请您确认是否收到保险合同，保险合同回执是否由您亲笔签名？</output>
             </map>
             <map condition="4" desc="收到，但不是我签名的。" next_state="6">
                 <output>好的，我们将尽快核实。保险合同回执是否为本人签名非常重要，我们会尽快安排工作人员与您联系，为您办理补签名手续</output>
             </map>
-            <map condition="5" desc="其他" next_state="5">
+            <map condition="5" desc="其他" next_state="5" max_retry_time="2" max_condition="2">
                 <output>抱歉，我不明白您说的意思，请问您是否已经收到保险合同，保险合同回执是否由您亲笔签名？</output>
             </map>
         </actor>
@@ -105,16 +111,16 @@
         </actor>
         <actor id="7" desc="确认投保单、投保提示书签名">
             <map condition="1" desc="明确应答" next_state="8">
-                <output>您所购买的***（产品简称），保险期间***年，您选择按年交费，交费年期***年，每年应交保险费***元，请问您了解吗？</output>
+                <output>您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
             <map condition="2" desc="否定应答" next_state="8">
-                <output>好的，我会做好记录，因为投保单、投保提示是否为本人签名非常重要，我们会尽快安排工作人员与您联系，为您办理补签名手续</output>
+                <output>好的，我会做好记录，因为投保单、投保提示是否为本人签名非常重要，我们会尽快安排工作人员与您联系，为您办理补签名手续.您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
-            <map condition="3" desc="不记得/不清楚/投保单是什么/提示书是什么" next_state="7" max_retry_time="2" max_condition="2">
+            <map condition="3" desc="不记得/不清楚/投保单是什么/提示书是什么" next_state="7" max_retry_time="3" max_condition="2">
                 <output>投保单是您买保险时的申请资料，上面是您的一些个人投保信息，例如您购买的产品名称，每年应交的保费，您与被保人的基本情况、联系方式、健康情况、收入情况等等。投保提示书上面主要是列明购买保险的注意事项，例如提示您享有犹豫期权益、提示您根据个人需要选择保险产品等，请您回忆一下投保单、投保提示书是否由您本人亲笔签名？</output>
             </map>
             <map condition="4" desc="多次3" next_state="8">
-                <output>好的，我会做好记录，将尽快与工作人员核实</output>
+                <output>好的，我会做好记录，将尽快与工作人员核实.您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
             <map condition="5" desc="其他" next_state="7" max_retry_time="2" max_condition="4">
                 <output>抱歉，我不明白您说的意思，请问投保单、投保提示书是否由您本人亲笔签名的吗？</output>
@@ -125,16 +131,16 @@
                 <output>请问您对保险责任及责任免除了解吗？</output>
             </map>
             <map condition="2" desc="否定应答" next_state="8" max_retry_time="2" max_condition="3">
-                <output>这份保险的保险期间为***年，您选择按年交费，每年交一次，交费年期***年，每年应交保险费***元，请问您了解吗？</output>
+                <output>这份保险的保险期间为#insurePeriod#年，您选择按年交费，每年交一次，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
             <map condition="3" desc="多次否定应答2" next_state="9">
-                <output>好的，我会做好记录，后续安排工作人员与您联系</output>
+                <output>好的，我会做好记录，后续安排工作人员与您联系.请问您对保险责任及责任免除了解吗？</output>
             </map>
             <map condition="4" desc="这个保险的保障期间不是**年的吗？怎么是**年(实际保障期间）啊？/“我这个保险不是**（实际保障期间）年，是保**年的？" next_state="8" max_retry_time="2" max_condition="3">
-                <output>您投保的这个保险保障期间是**年(实际保障期间），客户中途随时可以退保，按照保单的现金价值退，您保障满**年后退保也是可以的。如果您没有退保，可以保障**年(实际保障期间）。请问保险期间***年，您选择按年交费，交费年期***年，每年应交保险费***元，请问您了解吗？</output>
+                <output>您投保的这个保险保障期间是#insurePeriod#年，客户中途随时可以退保，按照保单的现金价值退，您保障满3年后退保也是可以的。如果您没有退保，可以保障#insurePeriod#年(实际保障期间）。请问保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
             <map condition="5" desc="其他" next_state="8" max_retry_time="2" max_condition="3">
-                <output>抱歉，我不明白您说的意思，您所购买的***（产品简称），保险期间***年，您选择按年交费，交费年期***年，每年应交保险费***元，请问您了解吗？</output>
+                <output>抱歉，我不明白您说的意思，您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
         </actor>
         <actor id="9" desc="确认保险责任和责任免除">
@@ -142,24 +148,24 @@
                 <output>从您签收保险合同次日起有15天的犹豫期，如果在犹豫期内您解除保险合同，公司将退还您所交保费，超过犹豫期解除保险合同可能会有损失。请问您了解吗？</output>
             </map>
             <map condition="2" desc="否定应答" next_state="9" max_retry_time="2" max_condition="3">
-                <output>保险责任是指保单保什么，您的这份保单主要为您提供**（实际保险责任）。责任免除主要是指保单不保的范围，例如客户因为吸毒、违法犯罪等情况导致身故后果是不在保障范围内的。好的，请问保险责任、责任免除的内容您都了解了吗？</output>
+                <output>保险责任是指保单保什么，您的这份保单主要为您提供#insuranceLiability#。责任免除主要是指保单不保的范围，例如客户因为吸毒、违法犯罪等情况导致身故后果是不在保障范围内的。好的，请问保险责任、责任免除的内容您都了解了吗？</output>
             </map>
             <map condition="3" desc="多次否定2" next_state="10">
-                <output>好的，我会做好记录，后续安排工作人员与您联系</output>
+                <output>好的，我会做好记录，后续安排工作人员与您联系,从您签收保险合同次日起有15天的犹豫期，如果在犹豫期内您解除保险合同，公司将退还您所交保费，超过犹豫期解除保险合同可能会有损失。请问您了解吗？</output>
             </map>
-            <map condition="4" desc="其他" next_state="10" max_retry_time="2" max_condition="3">
+            <map condition="4" desc="其他" next_state="9" max_retry_time="2" max_condition="3">
                 <output>抱歉，我不明白您说的意思，请问您对保险责任及责任免除了解吗？</output>
             </map>
         </actor>
         <actor id="10" desc="确认犹豫期及退保损失">
             <map condition="1" desc="明确应答" next_state="11">
-                <output>为了确保以后能及时联系到您，再与您核对一下联系方式：您的联系电话为***，您的联系地址为***，邮政编码为***，请问以上信息是否正确？</output>
+                <output>为了确保以后能及时联系到您，再与您核对一下联系方式：您的联系电话为#insurerPhoneNumber#，您的联系地址为#insurerAddress#，邮政编码为#insurerZipCode#，请问以上信息是否正确？</output>
             </map>
             <map condition="2" desc="否定应答" next_state="10" max_retry_time="2" max_condition="3">
                 <output>从您签收保险合同次日起有15天的犹豫期，如果在犹豫期内您觉得这份保险不太适合您，您可以向我们公司申请退保，公司将全额退还您所交保费，超过犹豫期解除保险合同可能会有损失。请问您了解吗？</output>
             </map>
             <map condition="3" desc="多次否定2" next_state="11">
-                <output>好的，我会做好记录，后续安排工作人员与您联系</output>
+                <output>好的，我会做好记录，后续安排工作人员与您联系.为了确保以后能及时联系到您，再与您核对一下联系方式：您的联系电话为#insurerPhoneNumber#，您的联系地址为#insurerAddress#，邮政编码为#insurerZipCode#，请问以上信息是否正确？</output>
             </map>
             <map condition="4" desc="其他" next_state="10" max_retry_time="2" max_condition="3">
                 <output>抱歉，我不明白您说的意思，从您签收保险合同次日起有15天的犹豫期，如果在犹豫期内您解除保险合同，公司将退还您所交保费，超过犹豫期解除保险合同可能会有损失。请问您了解吗？</output>
@@ -173,7 +179,7 @@
                 <output>好的，我会做好记录，后续安排工作人员与您联系.好的，我们的回访就到这，请您在随后的时间内认真阅读条款，若有任何需求欢迎拨打客户服务电话0898-66709289。非常感谢您对海保人寿的支持与信任，祝您和家人身体健康、万事顺意！</output>
             </map>
             <map condition="3" desc="其他" next_state="11" max_retry_time="2" max_condition="2">
-                <output>抱歉，我不明白您说的意思，为了确保以后能及时联系到您，再与您核对一下联系方式：您的联系电话为***，您的联系地址为***，邮政编码为***，请问以上信息是否正确？</output>
+                <output>抱歉，我不明白您说的意思，为了确保以后能及时联系到您，再与您核对一下联系方式：您的联系电话为#insurerPhoneNumber#，您的联系地址为#insurerAddress#，邮政编码为#insurerZipCode#，请问以上信息是否正确？</output>
             </map>
         </actor>
         <actor id="12" desc="end">

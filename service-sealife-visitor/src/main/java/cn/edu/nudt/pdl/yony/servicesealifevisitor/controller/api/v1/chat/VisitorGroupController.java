@@ -70,7 +70,7 @@ public class VisitorGroupController {
         }
 
         //quit
-        @RequestMapping(value = "/quit/{uuid}", method = RequestMethod.GET)
+        @RequestMapping(value = "/seat/{uuid}", method = RequestMethod.DELETE)
         public Map quit(@PathVariable String uuid) {
                 return chatService.quit(uuid);
         }

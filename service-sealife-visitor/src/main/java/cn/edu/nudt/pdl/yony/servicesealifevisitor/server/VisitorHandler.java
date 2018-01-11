@@ -21,6 +21,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +59,10 @@ public class VisitorHandler implements Runnable {
         @Autowired
         RestTemplate restTemplate;
 
+        private volatile boolean isStop = false;
+
+        private ExecutorService executor = Executors.newCachedThreadPool();
+
 
         // Constructor
         public VisitorHandler(Socket socket) throws IOException {
@@ -77,32 +84,34 @@ public class VisitorHandler implements Runnable {
                 public void onResult(RecognizerResult results, boolean isLast) {
                         buffer.append(results.getResultString());
                         if (isLast) {
-                                new Thread() {
-                                        @Override
-                                        public void run() {
-                                                String receivedStr = buffer.toString();
-                                                buffer.setLength(0);
-                                                log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
-                                                if (StringUtils.isNotBlank(receivedStr)) {
-                                                        try {
-                                                                long startTime = System.currentTimeMillis();
-                                                                String sendStr = null;
-                                                                sendStr = getRepStr(receivedStr);
-                                                                log.info((System.currentTimeMillis() - startTime) + " sendStr :" + sendStr);
-                                                                sendStr(sendStr);
-                                                        } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                        } catch (IOException e) {
-                                                                e.printStackTrace();
-                                                        }
+                                isStop = true;
+//                                mIat.cancel();
+//                                mIat.stopListening();
+                                executor.execute(() -> {
+                                        String receivedStr = buffer.toString();
+                                        buffer.setLength(0);
+                                        log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
+                                        if (StringUtils.isNotBlank(receivedStr)) {
+                                                try {
+                                                        long startTime = System.currentTimeMillis();
+                                                        String sendStr = null;
+                                                        sendStr = getRepStr(receivedStr);
+                                                        log.info("处理时间:" + (System.currentTimeMillis() - startTime) + "; sendStr :" + sendStr);
+                                                        sendStr(sendStr);
+                                                } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                } catch (IOException e) {
+                                                        e.printStackTrace();
                                                 }
                                         }
-                                }.start();
+                                });
                         }
                 }
 
                 //会话发生错误回调接口
                 public void onError(SpeechError error) {
+                        isStop = true;
+                        mIat.cancel();
                         log.info(error.getErrorDescription(true)); //获取错误码描述
                 }
 
@@ -117,6 +126,8 @@ public class VisitorHandler implements Runnable {
 
                 // 结束录音
                 public void onEndOfSpeech() {
+                        isStop = true;
+//                        mIat.cancel();
 //                        synchronized (monitor) {
                         if (log.isDebugEnabled()) {
                                 log.info("结束！");
@@ -158,21 +169,25 @@ public class VisitorHandler implements Runnable {
 
         // 发送用语
         private int sendStr(String sendSer) throws IOException, JSONException {
+                //entity
                 HttpHeaders headers = new HttpHeaders();
                 MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");
                 headers.setContentType(type);
                 headers.add("Accept", MediaType.APPLICATION_JSON.toString());
-
                 JSONObject jsonObj = new JSONObject();
-                jsonObj.put("information", sendSer);
-
+                jsonObj.put("text", sendSer);
+                jsonObj.put("uuid", uuid);
                 HttpEntity<String> formEntity = new HttpEntity<>(jsonObj.toString(), headers);
-                JSONObject result = restTemplate.postForObject("http://192.168.3.41:5000/reply", formEntity, JSONObject.class);
-                try {
-                        log.info(result.getString("result"));
-                } catch (JSONException e) {
-                        e.printStackTrace();
-                }
+                //uri
+                String uri = callInfo.get("volUri").toString();
+                log.info("URI:" + uri);
+
+                JSONObject result = restTemplate.postForObject(uri, formEntity, JSONObject.class);
+//                try {
+//                        log.info(result.toString());
+//                } catch (JSONException e) {
+//                        e.printStackTrace();
+//                }
                 return sendSer.length();//buffer.length;
         }
 
@@ -211,13 +226,14 @@ public class VisitorHandler implements Runnable {
                         mIat.setParameter(SpeechConstant.ACCENT, "mandarin ");
                         mIat.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");
                         mIat.setParameter(SpeechConstant.RESULT_TYPE, "plain");
-                        mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
                         mIat.setParameter(SpeechConstant.SAMPLE_RATE, "8000");
 //                        mIat.setParameter(SpeechConstant.VAD_BOS, "1000");
 //                        mIat.setParameter(SpeechConstant.VAD_EOS,"3000");
 //                        mIat.setParameter(SpeechConstant.)
                         //3.开始听写 mRecoListener
                         mIat.startListening(mRecoListener);
+//                        mIat.stopListening();
+//                        mIat.stopListening();
                         int readLength = 0;
                         while (true && readLength != -1) {
 //                                synchronized (monitor) {
@@ -228,9 +244,12 @@ public class VisitorHandler implements Runnable {
                                 } else {
                                         if (!mIat.isListening()) {
                                                 mIat.startListening(mRecoListener);
+                                                isStop = false;
+                                        }else if(isStop) {
+                                                mIat.stopListening();
+                                        }else if(!isStop) {
+                                                mIat.writeAudio(buffer, 0, readLength);
                                         }
-//                                        log.info("readLength :" + readLength);
-                                        mIat.writeAudio(buffer, 0, readLength);
                                 }
                         }
                         mIat.stopListening();

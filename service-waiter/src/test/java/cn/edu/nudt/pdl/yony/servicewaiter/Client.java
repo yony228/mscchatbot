@@ -33,10 +33,11 @@ public class Client {
         @Test
         public void start() throws Exception {
                 byte[] buffer = new byte[4800];
-                socket = new Socket("localhost", 14800);
+                socket = new Socket("localhost", 14801);
                 OutputStream os = socket.getOutputStream();
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpPost httppost = new HttpPost("http://localhost:8004/api/v1/chat/dunnergroup/seat");
+//                HttpPost httppost = new HttpPost("http://localhost:8769/service-swalife-visitor/api/v1/chat/sealife/visitorgroup/seat");
+                HttpPost httppost = new HttpPost("http://localhost:8082/api/v1/chat/sealife/visitorgroup/seat");
                 UrlEncodedFormEntity uefEntity;
                 List formparams = new ArrayList();
                 formparams.add(new BasicNameValuePair("id", "123123"));
@@ -48,7 +49,7 @@ public class Client {
                 formparams.add(new BasicNameValuePair("expireDate", "十月十八"));
                 formparams.add(new BasicNameValuePair("amount", "十五万"));
                 formparams.add(new BasicNameValuePair("cardTail4", "1467"));
-                formparams.add(new BasicNameValuePair("volUri", "192.168.188.150:14800"));
+                formparams.add(new BasicNameValuePair("volUri", "192.168.188.150:14801"));
                 uefEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
                 httppost.setEntity(uefEntity);
                 CloseableHttpResponse response = httpclient.execute(httppost);
