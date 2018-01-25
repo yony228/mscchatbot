@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -63,6 +62,8 @@ public class VisitorHandler implements Runnable {
 
         private ExecutorService executor = Executors.newCachedThreadPool();
 
+        private Object lockObj = new Object();
+
 
         // Constructor
         public VisitorHandler(Socket socket) throws IOException {
@@ -84,9 +85,11 @@ public class VisitorHandler implements Runnable {
                 public void onResult(RecognizerResult results, boolean isLast) {
                         buffer.append(results.getResultString());
                         if (isLast) {
-                                isStop = true;
-//                                mIat.cancel();
-//                                mIat.stopListening();
+                                synchronized (lockObj) {
+                                        isStop = true;
+//                                      mIat.cancel();
+//                                      mIat.stopListening();
+                                }
                                 executor.execute(() -> {
                                         String receivedStr = buffer.toString();
                                         buffer.setLength(0);
@@ -110,8 +113,10 @@ public class VisitorHandler implements Runnable {
 
                 //会话发生错误回调接口
                 public void onError(SpeechError error) {
-                        isStop = true;
-                        mIat.cancel();
+                        synchronized (lockObj) {
+                                isStop = true;
+//                              mIat.cancel();
+                        }
                         log.info(error.getErrorDescription(true)); //获取错误码描述
                 }
 
@@ -126,12 +131,11 @@ public class VisitorHandler implements Runnable {
 
                 // 结束录音
                 public void onEndOfSpeech() {
-                        isStop = true;
-//                        mIat.cancel();
-//                        synchronized (monitor) {
-                        if (log.isDebugEnabled()) {
-                                log.info("结束！");
-                        }
+                        /*synchronized (lockObj) {
+                                isStop = true;
+//                              mIat.cancel();
+                        }*/
+                        log.info("结束！");
                 }
 
                 // 扩展用接口
@@ -206,6 +210,65 @@ public class VisitorHandler implements Runnable {
                 return tmp;
         }
 
+//        public boolean isNeededStopFun(Object lockObj) {
+//                synchronized (lockObj) {
+//                        return mIat.isListening() && isStop;
+//                }
+//        }
+//
+//        public boolean isStartFun(Object lockObj) {
+//                synchronized (lockObj) {
+//                        return mIat.isListening() && !isStop;
+//                }
+//        }
+
+        class StartListenerHandler implements Runnable {
+
+                @Override
+                public void run() {
+                        while (!Thread.interrupted()) {
+                                synchronized (lockObj) {
+                                        if (!mIat.isListening()) {
+                                                log.info("--start listening begin!");
+                                                mIat = SpeechRecognizer.createRecognizer();
+                                                //2.设置听写参数，详见《MSC Reference Manual》SpeechConstant类
+                                                mIat.setParameter(SpeechConstant.DOMAIN, "iat");
+                                                mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
+                                                mIat.setParameter(SpeechConstant.ACCENT, "mandarin ");
+                                                mIat.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");
+                                                mIat.setParameter(SpeechConstant.RESULT_TYPE, "plain");
+                                                mIat.setParameter(SpeechConstant.SAMPLE_RATE, "8000");
+                                                //3.开始听写 mRecoListener
+                                                mIat.startListening(mRecoListener);
+                                                isStop = false;
+                                                log.info("--start listening end!");
+                                        }
+                                }
+                        }
+                }
+        }
+
+        class StopListenerHandler implements Runnable {
+                @Override
+                public void run() {
+                        while (!Thread.interrupted()) {
+                                synchronized (lockObj) {
+                                        if (mIat.isListening() && isStop) {
+                                                log.info("--stop listening begin!");
+                                                mIat.cancel();
+                                                mIat.stopListening();
+                                                mIat.destroy();
+                                                log.info("--stop listening end!");
+                                        }
+                                }
+                        }
+                }
+        }
+
+        private byte[] buffer = new byte[4800];
+
+        private int readLength = 0;
+
         @Override
         public void run() {
                 log.info("start!");
@@ -214,10 +277,20 @@ public class VisitorHandler implements Runnable {
 
                 // 获得通话信息缓存
                 this.callInfo = this.mongoJdbcTemplate.findObjectByParam(collectionName, "uuid", this.uuid);
+                this.callInfo.put("insurerName", "张三");
+                this.callInfo.put("insurerTitle", "先生");
+                this.callInfo.put("chatbotNum", "001");
+                this.callInfo.put("insuranceType", "好生活年金保险");
+                this.callInfo.put("insurePeriod", "十");
+                this.callInfo.put("feePeriod", "二十");
+                this.callInfo.put("feePerYear", "一千五百元整");
+                this.callInfo.put("insuranceLiability", "好生活年金");
+                this.callInfo.put("insurerPhoneNumber", "13333333333");
+                this.callInfo.put("insurerAddress", "湖南长沙");
+                this.callInfo.put("insurerZipCode", "421000");
 
                 // 开始交互
                 try {
-                        byte[] buffer = new byte[4800];
                         //1.创建SpeechRecognizer对象
                         mIat = SpeechRecognizer.createRecognizer();
                         //2.设置听写参数，详见《MSC Reference Manual》SpeechConstant类
@@ -227,31 +300,29 @@ public class VisitorHandler implements Runnable {
                         mIat.setParameter(SpeechConstant.AUDIO_SOURCE, "-1");
                         mIat.setParameter(SpeechConstant.RESULT_TYPE, "plain");
                         mIat.setParameter(SpeechConstant.SAMPLE_RATE, "8000");
-//                        mIat.setParameter(SpeechConstant.VAD_BOS, "1000");
+//                        mIat.setParameter(SpeechConstant.VAD_BOS, "10000");
 //                        mIat.setParameter(SpeechConstant.VAD_EOS,"3000");
 //                        mIat.setParameter(SpeechConstant.)
                         //3.开始听写 mRecoListener
                         mIat.startListening(mRecoListener);
-//                        mIat.stopListening();
-//                        mIat.stopListening();
-                        int readLength = 0;
-                        while (true && readLength != -1) {
-//                                synchronized (monitor) {
-                                readLength = receiveStr(buffer);
-//                                cyclicBarrier.reset();
-                                if (readLength == -1) {
-                                        break;
-                                } else {
-                                        if (!mIat.isListening()) {
-                                                mIat.startListening(mRecoListener);
-                                                isStop = false;
-                                        }else if(isStop) {
-                                                mIat.stopListening();
-                                        }else if(!isStop) {
+
+                        Thread startListenerHandler = new Thread(new StartListenerHandler());
+                        Thread stopListenerHandler = new Thread(new StopListenerHandler());
+                        startListenerHandler.start();
+                        stopListenerHandler.start();
+
+//                        int readLength = 0;
+                        while ((readLength = receiveStr(buffer)) != -1) {
+                                synchronized (lockObj) {
+//                                        log.info("--write begin");
+                                        if (mIat.isListening() && !isStop) {
                                                 mIat.writeAudio(buffer, 0, readLength);
+//                                                log.info("--write end");
                                         }
                                 }
                         }
+                        startListenerHandler.interrupt();
+                        stopListenerHandler.interrupt();
                         mIat.stopListening();
                 } catch (IOException e) {
                         e.printStackTrace();

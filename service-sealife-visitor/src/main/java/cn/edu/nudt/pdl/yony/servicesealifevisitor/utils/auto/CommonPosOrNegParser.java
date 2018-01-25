@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class CommonPosOrNegParser implements IArbiter.IParser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommonPosOrNegParser.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(CommonPosOrNegParser.class);
 
     public CommonPosOrNegParser() {
         this.posWordList = java.util.Arrays.asList(this.posWordArray);
@@ -19,9 +19,9 @@ public class CommonPosOrNegParser implements IArbiter.IParser {
     public String parser(String str) {
         String flag;
         List<Term> termList = HanLP.segment(str);
-        LOGGER.info("Segmentation of " + str + " is " + termList.toString());
+//        LOGGER.info("Segmentation of " + str + " is " + termList.toString());
         int score = scoring(termList);
-        LOGGER.info("Positive score of " + str + " is " + score);
+//        LOGGER.info("Positive score of " + str + " is " + score);
 
         if (score > 0) {
             flag = "1";

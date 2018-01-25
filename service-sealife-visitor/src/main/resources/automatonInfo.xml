@@ -5,7 +5,7 @@
     <actors>
         <actor id="0" desc="开头语">
             <map condition="1" desc="any" next_state="1">
-                <output>您好，请问您是张三先生吗？</output>
+                <output>您好，请问您是#insurerName##insurerTitle#吗？</output>
             </map>
         </actor>
         <actor id="1">
@@ -44,10 +44,10 @@
                 <output>为了更好的维护您的权益，也为了让每一位客户都能更具体的了解所购买的产品，还是希望能耽误您2分钟时间，为您做一个简短的回访，好吗？</output>
             </map>
             <map condition="6" desc="不知道购买的是保险" next_state="2" max_retry_time="2" max_condition="2">
-                <output>您#insureDate#在***代理人那里购买了一份#insuranceType#保险产品。为了维护您的权益，给您做个电话回访，请问现在方便吗？</output>
+                <output>您#insureDate#在代理人那里购买了一份#insuranceType#保险产品。为了维护您的权益，给您做个电话回访，请问现在方便吗？</output>
             </map>
             <map condition="7" desc="其他(重复确认)" next_state="2" max_retry_time="2" max_condition="2">
-                <output>抱歉，我不明白您说的意思，我是海保人寿的服务人员，工号#chatbotNum#，感谢您于#insureDate#通过银行购买了我公司的海保人寿好生活定期寿险，为了维护您的权益，跟您做个电话回访，需占用您3-5分钟的时间，请问您现在方便接听电话吗？</output>
+                <output>抱歉，我不明白您说的意思，我是海保人寿的服务人员，我们给您做个简单的电话回访，请问您现在方便接听电话吗？</output>
             </map>
         </actor>
         <actor id="3" desc="验证客户身份">
@@ -100,10 +100,10 @@
                 <output>请问投保单、投保提示书是否由您本人亲笔签名的吗？</output>
             </map>
             <map condition="2" desc="否定应答" next_state="6" max_retry_time="2" max_condition="3">
-                <output>投保提示书是您在购买保险时工作人员拿给您看并向您介绍的说明材料，主要是介绍保单需要注意的事项，例如提示您享有犹豫期权益、提示您根据个人需要选择保险产品等。请问您是否阅读并理解投保提示内容？</output>
+                <output>投保提示书主要是介绍保单需要注意的事项，例如提示您享有犹豫期权益、提示您根据个人需要选择保险产品等。请问您是否阅读并理解投保提示内容？</output>
             </map>
             <map condition="3" desc="多次否定应答" next_state="7">
-                <output>好的，我会做好记录，后续安排工作人员与您联系</output>
+                <output>好的，我会做好记录，后续安排工作人员与您联系, 请问投保单、投保提示书是否由您本人亲笔签名的吗？</output>
             </map>
             <map condition="4" desc="其他" next_state="6" max_retry_time="2" max_condition="3">
                 <output>抱歉，我不明白您说的意思，请问您是否阅读并理解投保提示内容？</output>
@@ -114,10 +114,10 @@
                 <output>您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
             <map condition="2" desc="否定应答" next_state="8">
-                <output>好的，我会做好记录，因为投保单、投保提示是否为本人签名非常重要，我们会尽快安排工作人员与您联系，为您办理补签名手续.您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
+                <output>好的，我们会尽快安排工作人员与您联系，为您办理补签名手续.您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
             </map>
             <map condition="3" desc="不记得/不清楚/投保单是什么/提示书是什么" next_state="7" max_retry_time="3" max_condition="2">
-                <output>投保单是您买保险时的申请资料，上面是您的一些个人投保信息，例如您购买的产品名称，每年应交的保费，您与被保人的基本情况、联系方式、健康情况、收入情况等等。投保提示书上面主要是列明购买保险的注意事项，例如提示您享有犹豫期权益、提示您根据个人需要选择保险产品等，请您回忆一下投保单、投保提示书是否由您本人亲笔签名？</output>
+                <output>投保单是您的一些个人投保信息，例如您购买的产品名称，每年应交的保费，您与被保人的基本情况、健康情况、收入情况等等。投保提示书上面主要是列明购买保险的注意事项，请您回忆一下投保单、投保提示书是否由您本人亲笔签名？</output>
             </map>
             <map condition="4" desc="多次3" next_state="8">
                 <output>好的，我会做好记录，将尽快与工作人员核实.您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
@@ -137,7 +137,7 @@
                 <output>好的，我会做好记录，后续安排工作人员与您联系.请问您对保险责任及责任免除了解吗？</output>
             </map>
             <map condition="4" desc="这个保险的保障期间不是**年的吗？怎么是**年(实际保障期间）啊？/“我这个保险不是**（实际保障期间）年，是保**年的？" next_state="8" max_retry_time="2" max_condition="3">
-                <output>您投保的这个保险保障期间是#insurePeriod#年，客户中途随时可以退保，按照保单的现金价值退，您保障满3年后退保也是可以的。如果您没有退保，可以保障#insurePeriod#年(实际保障期间）。请问保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>
+                <output>您投保的这个保险保障期间是#insurePeriod#年，客户中途随时可以退保，按照保单的现金价值退，您保障满3年后退保也是可以的。如果您没有退保，可以保障#insurePeriod#年(实际保障期间），请问您了解吗？</output>
             </map>
             <map condition="5" desc="其他" next_state="8" max_retry_time="2" max_condition="3">
                 <output>抱歉，我不明白您说的意思，您所购买的#insuranceType#，保险期间#insurePeriod#年，您选择按年交费，交费年期#feePeriod#年，每年应交保险费#feePerYear#元，请问您了解吗？</output>

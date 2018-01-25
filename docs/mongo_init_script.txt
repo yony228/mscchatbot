@@ -3,10 +3,10 @@ $ docker pull mongo:3.6.1
 
 // start mongo image with auth
 // $PWD: current path for the mongo data
-$ docker run --name mongo-server -p 27017:27017 -v $PWD/data/db:/data/db -d mongo --auth
+$ docker run --name mongo-server -p 27017:27017 -v $PWD/data/db:/data/db -d mongo:3.6.1 --auth
 
 // start a terminal to mongo server for create schema with auth admin
-$ docker exec -it some-mongo mongo admin
+$ docker exec -it mongo-server mongo admin
 
 // create a user has userAdmin role
 > db.createUser({ user: 'jsmith', pwd: 'some-initial-password', roles: [ { role: "userAdminAnyDatabase", db: "admin" } ] });
@@ -17,4 +17,6 @@ $ docker run -it --rm --link mongo-server:mongo mongo mongo -u jsmith -p some-in
 
 // create a user for application connection with read/write role in mscchatbot database
 > use mscchatbot; // switch to mscchatbot database
-> db.createUser({ user: 'waiter', pwd: '123123', role: [ { role: "readWriter", db: "mscchatbot"} ]});
+> db.createUser({ user: 'waiter', pwd: '123123', roles: [ { role: "readWrite", db: "mscchatbot"} ]});
+
+$ docker run -it --rm --link mongo-server:mongo mongo mongo -u waiter -p 123123 --authenticationDatabase mscchatbot mongo-server/mscchatbot

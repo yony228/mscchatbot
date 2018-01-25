@@ -43,14 +43,27 @@ public class VisitorGroupController {
                 String uuid = regMap.get("uuid").toString();
                 String resp = regMap.get("resp").toString();
 
+                params.put("insurerName", "张三");
+                params.put("insurerTitle", "先生");
+                params.put("chatbotNum", "001");
+                params.put("insuranceType", "好生活年金保险");
+                params.put("insurePeriod", "十");
+                params.put("feePeriod", "二十");
+                params.put("feePerYear", "一千五百元整");
+                params.put("insuranceLiability", "好生活年金");
+                params.put("insurerPhoneNumber", "13333333333");
+                params.put("insurerAddress", "湖南长沙");
+                params.put("insurerZipCode", "421000");
+
                 // 替换占位符
                 Pattern p = Pattern.compile("#\\w+#");
                 Matcher m = p.matcher(resp);
                 while (m.find()) {
                         if (params.containsKey(m.group().replace("#", ""))) {
-                                resp.replaceAll(m.group(), params.get(m.group().replace("#", "")).toString());
+                                resp = resp.replaceAll(m.group(), params.get(m.group().replace("#", "")).toString());
                         }
                 }
+
                 params.put("uuid", uuid);
                 //client info send to mongo
                 mongoJdbcTemplate.addMapObject(collectionName, params);
