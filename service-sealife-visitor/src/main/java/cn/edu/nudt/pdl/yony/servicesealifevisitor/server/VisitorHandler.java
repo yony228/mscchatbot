@@ -2,11 +2,10 @@ package cn.edu.nudt.pdl.yony.servicesealifevisitor.server;
 
 import cn.edu.nudt.pdl.yony.servicesealifevisitor.service.ChatService;
 import cn.edu.nudt.pdl.yony.servicesealifevisitor.utils.MongoJdbcTemplate;
+import com.alibaba.fastjson.JSONObject;
 import com.iflytek.cloud.speech.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -101,9 +100,9 @@ public class VisitorHandler implements Runnable {
                                                         sendStr = getRepStr(receivedStr);
                                                         log.info("处理时间:" + (System.currentTimeMillis() - startTime) + "; sendStr :" + sendStr);
                                                         sendStr(sendStr);
-                                                } catch (JSONException e) {
+                                                } /*catch (JSONException e) {
                                                         e.printStackTrace();
-                                                } catch (IOException e) {
+                                                } */catch (IOException e) {
                                                         e.printStackTrace();
                                                 }
                                         }
@@ -158,7 +157,7 @@ public class VisitorHandler implements Runnable {
         }
 
         // 获得应答用语
-        private String getRepStr(String sourceStr) throws JSONException {
+        private String getRepStr(String sourceStr) {
                 Map repMap = this.chatService.interact(uuid, sourceStr);
                 String repStr = repMap.get("resp").toString();
                 Pattern p = Pattern.compile("#\\w+#");
@@ -172,7 +171,7 @@ public class VisitorHandler implements Runnable {
         }
 
         // 发送用语
-        private int sendStr(String sendSer) throws IOException, JSONException {
+        private int sendStr(String sendSer) throws IOException {
                 //entity
                 HttpHeaders headers = new HttpHeaders();
                 MediaType type = MediaType.parseMediaType("application/json; charset=UTF-8");

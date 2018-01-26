@@ -5,7 +5,7 @@
 
     <groupId>cn.edu.nudt.pdl.yony</groupId>
     <artifactId>server-sealife-visitor</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>server-sealife-visitor</name>
@@ -85,11 +85,11 @@
         </dependency>
 
         <!-- json-jena -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.hp.hpl.jena</groupId>
             <artifactId>json-jena</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- mongodb driver -->
         <dependency>
@@ -103,11 +103,18 @@
             <version>4.1</version>
         </dependency>
 
+        <!--&lt;!&ndash; netty &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>io.netty</groupId>-->
+            <!--<artifactId>netty-all</artifactId>-->
+            <!--<version>4.1.19.Final</version>-->
+        <!--</dependency>-->
+
         <!-- netty -->
         <dependency>
             <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.19.Final</version>
+            <artifactId>netty</artifactId>
+            <version>3.7.0.Final</version>
         </dependency>
 
         <!-- swagger -->
@@ -115,6 +122,21 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.7.0</version>
+        </dependency>
+
+        <!-- AVR -->
+        <dependency>
+            <groupId>com.alibaba.idst</groupId>
+            <artifactId>nls-realtime-sdk</artifactId>
+            <version>2.0.0</version>
+            <!--<scope>system</scope>
+            <systemPath>${project.basedir}/lib/nls-realtime-sdk-2.0.0.jar</systemPath>-->
+        </dependency>
+        <!-- json -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.45</version>
         </dependency>
     </dependencies>
 

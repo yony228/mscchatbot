@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/eureka-server/eureka-server.iml" filepath="$PROJECT_DIR$/eureka-server/eureka-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/mscchatbot.iml" filepath="$PROJECT_DIR$/mscchatbot.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-dunner/service-dunner.iml" filepath="$PROJECT_DIR$/service-dunner/service-dunner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/service-sealife-visitor/service-sealife-visitor.iml" filepath="$PROJECT_DIR$/service-sealife-visitor/service-sealife-visitor.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-waiter/service-waiter.iml" filepath="$PROJECT_DIR$/service-waiter/service-waiter.iml" />
       <module fileurl="file://$PROJECT_DIR$/zuul-server/zuul-server.iml" filepath="$PROJECT_DIR$/zuul-server/zuul-server.iml" />
     </modules>

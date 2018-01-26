@@ -31,7 +31,7 @@ public class VisitorServer implements ApplicationContextAware {
                         System.out.println("Server start on port: 14801");
                         while (true) {
                                 Socket socket = ss.accept();
-                                VisitorHandler dh = applicationContext.getBean(VisitorHandler.class, new Object[]{socket/*, outerDunnerService*/});
+                                AliVisitorHandler dh = applicationContext.getBean(AliVisitorHandler.class, new Object[]{socket/*, outerDunnerService*/});
                                 Thread dunner = new Thread(dh);//new DunnerHandler(socket, outerDunnerService)
                                 dunner.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                                         @Override
