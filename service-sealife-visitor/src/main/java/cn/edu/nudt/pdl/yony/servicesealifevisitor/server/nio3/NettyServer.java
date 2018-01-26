@@ -1,8 +1,6 @@
-package cn.edu.nudt.pdl.yony.servicesealifevisitor.server.nio;
+package cn.edu.nudt.pdl.yony.servicesealifevisitor.server.nio3;
 
 //import io.netty.channel.ChannelInitializer;
-
-import java.nio.channels.Channel;
 
 /**
  * email: yony228@163.com
