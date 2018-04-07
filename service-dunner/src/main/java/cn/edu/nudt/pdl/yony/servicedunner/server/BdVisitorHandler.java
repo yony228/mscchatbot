@@ -1,7 +1,8 @@
-package cn.edu.nudt.pdl.yony.servicesealifevisitor.server;
+package cn.edu.nudt.pdl.yony.servicedunner.server;
 
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.service.ChatService;
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.utils.MongoJdbcTemplate;
+
+import cn.edu.nudt.pdl.yony.servicedunner.service.ChatService;
+import cn.edu.nudt.pdl.yony.servicedunner.utils.MongoJdbcTemplate;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.idst.nls.realtime.NlsClient;
@@ -21,10 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
-import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -38,63 +40,39 @@ import java.util.regex.Pattern;
 @Slf4j
 @Component
 @Scope("prototype")
-public class AliVisitorHandler implements ISession, Runnable, NlsListener {
+public class BdVisitorHandler implements Runnable {
 
-        private static final int UUID_LENGTH = 32;
-//        @Value("${self.ali.appKey}")
-        protected  String appKey = "nls-service-realtime-8k";
-//        @Value("${self.ali.ak.id}")
-        protected  String ak_id = "LTAIdRDPQOT4doZ7";
-//        @Value("${self.ali.ak.secret}")
-        protected  String ak_secret = "dfh1XZnJQbbUKg5Ll2kzV9PI1YWG4G";
-//        @Value("${self.ali.asrSC}")
-        protected  String asrSC = "pcm";
-
-        protected NlsClient client = new NlsClient();// ali avr
+        // 外部催收Chatbot服务
         @Autowired
-        private ChatService chatService;// 外部催收Chatbot服务
-        private String uuid;// 会话 id
-        private boolean isBroadcast = false;//　是否播放标志
-        private Stack<String> sentences = new Stack<>();// 语音栈
+        private ChatService chatService;
+        // 会话 id
+        private String uuid;
+
         private Socket socket;
         private InputStream inputStream;
         private OutputStream outputStream;
+
+        // 通话相关信息
         @Autowired
         MongoJdbcTemplate mongoJdbcTemplate;
-        private Map callInfo;// 通话相关信息
+        private Map callInfo;
         @Value("${self.mongodb.template.database}")
         private String collectionName;
         @Autowired
         RestTemplate restTemplate;
+
         private ExecutorService executor = Executors.newCachedThreadPool();
 
-        public String getUuid() {
-                return uuid;
-        }
 
-        @Override
-        public void setBroadcastOver() {
-                this.isBroadcast = false;
-        }
-
-        public AliVisitorHandler() {
+        public BdVisitorHandler() {
 
         }
 
         // Constructor
-        public AliVisitorHandler(Socket socket) throws IOException {
+        public BdVisitorHandler(Socket socket) throws IOException {
                 this.socket = socket;
                 this.inputStream = socket.getInputStream();
                 this.outputStream = socket.getOutputStream();
-                // 获得UUID
-                this.uuid = receiveUuid(this.inputStream, UUID_LENGTH);
-        }
-
-        // finalize
-        protected void finalize() {
-                if (VisitorServer.getSession(this.uuid) != null) {
-                        VisitorServer.rmSession(this.uuid);
-                }
         }
 
         // 获得应答用语
@@ -126,18 +104,18 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                 String uri = callInfo.get("volUri").toString();
                 log.info("URI:" + uri);
 
-                String result = restTemplate.postForObject(uri, formEntity, String.class);
+                JSONObject result = restTemplate.postForObject(uri, formEntity, JSONObject.class);
                 log.info("result:" + result);
                 return sendSer.length();
         }
 
         // 接收UUID
-        private String receiveUuid(InputStream is, int bufferLength) {
+        private String receiveUuid(int bufferLength) {
                 byte[] buffer = new byte[bufferLength];
                 int index = 0;
                 while (index < bufferLength) {
                         try {
-                                index += is.read(buffer, index, bufferLength - index);
+                                index += inputStream.read(buffer, index, bufferLength - index);
                         } catch (IOException e) {
                                 e.printStackTrace();
                         }
@@ -146,54 +124,28 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                 return tmp;
         }
 
-        @Override
+//        @Override
         public void onMessageReceived(NlsEvent e) {
                 NlsResponse response = e.getResponse();
                 response.getFinish();
                 if (response.result != null) {
-                        String receivedStr = response.getResult().getText();
-                        log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
-                        if (StringUtils.isNotBlank(receivedStr)) {
-                                this.sentences.push(receivedStr);// 语音压栈
-                        }
-                        if (!this.isBroadcast) { // 已完成播放后直接取最新语音
-                                this.isBroadcast = true;
-                                executor.execute(() -> {
-                                        if (StringUtils.isNotBlank(receivedStr)) {
-                                                try {
-                                                        long startTime = System.currentTimeMillis();
-                                                        String sendStr = null;
-                                                        String preparedSentence = null;
-                                                        while (!sentences.empty()) {
-                                                                preparedSentence = sentences.pop() + preparedSentence;
-                                                        }
-                                                        sendStr = getRepStr(preparedSentence);
-                                                        log.info("处理时间:" + (System.currentTimeMillis() - startTime) + "; sendStr :" + sendStr);
-                                                        sendStr(sendStr);
-                                                } catch (IOException ex) {
-                                                        ex.printStackTrace();
-                                                }
+                        System.out.println(response.getResult().getText());
+                        executor.execute(() -> {
+                                String receivedStr = response.getResult().getText();
+//                                buffer.setLength(0);
+                                log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
+                                if (StringUtils.isNotBlank(receivedStr)) {
+                                        try {
+                                                long startTime = System.currentTimeMillis();
+                                                String sendStr = null;
+                                                sendStr = getRepStr(receivedStr);
+                                                log.info("处理时间:" + (System.currentTimeMillis() - startTime) + "; sendStr :" + sendStr);
+                                                sendStr(sendStr);
+                                        } catch (IOException ex) {
+                                                ex.printStackTrace();
                                         }
-                                });
-                        }
-
-//                        System.out.println(response.getResult().getText());
-//                        executor.execute(() -> {
-//                                String receivedStr = response.getResult().getText();
-////                                buffer.setLength(0);
-//                                log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
-//                                if (StringUtils.isNotBlank(receivedStr)) {
-//                                        try {
-//                                                long startTime = System.currentTimeMillis();
-//                                                String sendStr = null;
-//                                                sendStr = getRepStr(receivedStr);
-//                                                log.info("处理时间:" + (System.currentTimeMillis() - startTime) + "; sendStr :" + sendStr);
-//                                                sendStr(sendStr);
-//                                        } catch (IOException ex) {
-//                                                ex.printStackTrace();
-//                                        }
-//                                }
-//                        });
+                                }
+                        });
                         log.debug("status code = {},get finish is {},get recognize result: {}", response.getStatusCode(), response.getFinish(), response.getResult());
                         if (response.getQuality() != null) {
                                 log.info("Sentence {} is over. Get ended sentence recognize result: {}, voice quality is {}",
@@ -205,23 +157,25 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                 }
         }
 
-        @Override
+//        @Override
         public void onOperationFailed(NlsEvent e) {
                 log.error("status code is {}, on operation failed: {}", e.getResponse().getStatusCode(),
                         e.getErrorMessage());
         }
 
-        @Override
-        public void onChannelClosed(NlsEvent e) {
-                log.debug("on websocket closed.");
+//        @Override
+        public void onChannelClosed(NlsEvent e) {log.debug("on websocket closed.");
         }
 
         @Override
         public void run() {
                 log.info("start!");
+                // 获得UUID
+                this.uuid = receiveUuid(32);
+
                 // 获得通话信息缓存
                 this.callInfo = this.mongoJdbcTemplate.findObjectByParam(collectionName, "uuid", this.uuid);
-                this.callInfo.put("insurerName", "胡达娇");
+                /*this.callInfo.put("insurerName", "胡达娇");
                 this.callInfo.put("insurerTitle", "先生");
                 this.callInfo.put("chatbotNum", "001");
                 this.callInfo.put("insuranceType", "好生活年金保险");
@@ -231,7 +185,7 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                 this.callInfo.put("insuranceLiability", "好生活年金");
                 this.callInfo.put("insurerPhoneNumber", "13333333333");
                 this.callInfo.put("insurerAddress", "湖南长沙");
-                this.callInfo.put("insurerZipCode", "421000");
+                this.callInfo.put("insurerZipCode", "421000");*/
 
                 // 开始交互
                 try {
@@ -266,14 +220,18 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                                         outputStream = null;
                                 }
                         }
-                        if (client != null) {
+                        if(client != null) {
                                 client.close();
-                        }
-                        if (VisitorServer.getSession(this.uuid) != null) {
-                                VisitorServer.rmSession(this.uuid);
                         }
                 }
         }
+
+        protected String appKey = "nls-service-realtime-8k";
+        protected String ak_id = "LTAIdRDPQOT4doZ7";
+        protected String ak_secret = "dfh1XZnJQbbUKg5Ll2kzV9PI1YWG4G";
+        protected String asrSC = "pcm";
+
+        protected NlsClient client = new NlsClient();
 
         protected void start() {
                 log.debug("init Nls client...");
@@ -288,19 +246,19 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
 
         public void process() throws Exception {
                 NlsRequest req = buildRequest();
-                NlsFuture future = client.createNlsFuture(req, this);
+//                NlsFuture future = client.createNlsFuture(req, this);
                 log.debug("call NLS service");
                 byte[] b = new byte[8000];
                 int len = 0;
                 while ((len = this.inputStream.read(b)) > 0) {
-                        future.sendVoice(b, 0, len);
+//                        future.sendVoice(b, 0, len);
 //                        Thread.sleep(200);
                 }
                 log.debug("send finish signal!");
-                future.sendFinishSignal();
+//                future.sendFinishSignal();
 
                 log.debug("main thread enter waiting .");
-                future.await(1000);
+//                future.await(1000);
         }
 
         protected NlsRequest buildRequest() {

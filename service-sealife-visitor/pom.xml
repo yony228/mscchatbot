@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.edu.nudt.pdl.yony</groupId>
-    <artifactId>server-sealife-visitor</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <artifactId>service-sealife-visitor</artifactId>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>server-sealife-visitor</name>
+    <name>service-sealife-visitor</name>
     <description>sealife visitor project</description>
 
     <parent>
@@ -84,19 +84,13 @@
             <version>1019</version>
         </dependency>
 
-        <!-- json-jena -->
-        <!--<dependency>
-            <groupId>com.hp.hpl.jena</groupId>
-            <artifactId>json-jena</artifactId>
-            <version>1.0</version>
-        </dependency>-->
-
         <!-- mongodb driver -->
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>3.6.1</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
@@ -132,6 +126,7 @@
             <!--<scope>system</scope>
             <systemPath>${project.basedir}/lib/nls-realtime-sdk-2.0.0.jar</systemPath>-->
         </dependency>
+
         <!-- json -->
         <dependency>
             <groupId>com.alibaba</groupId>

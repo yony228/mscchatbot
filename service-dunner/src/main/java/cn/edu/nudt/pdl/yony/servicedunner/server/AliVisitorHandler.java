@@ -1,7 +1,8 @@
-package cn.edu.nudt.pdl.yony.servicesealifevisitor.server;
+package cn.edu.nudt.pdl.yony.servicedunner.server;
 
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.service.ChatService;
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.utils.MongoJdbcTemplate;
+
+import cn.edu.nudt.pdl.yony.servicedunner.service.ChatService;
+import cn.edu.nudt.pdl.yony.servicedunner.utils.MongoJdbcTemplate;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.idst.nls.realtime.NlsClient;
@@ -21,10 +22,13 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Map;
 import java.util.Stack;
+import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -38,47 +42,51 @@ import java.util.regex.Pattern;
 @Slf4j
 @Component
 @Scope("prototype")
-public class AliVisitorHandler implements ISession, Runnable, NlsListener {
+public class AliVisitorHandler implements Runnable, ISession, NlsListener {
 
         private static final int UUID_LENGTH = 32;
-//        @Value("${self.ali.appKey}")
-        protected  String appKey = "nls-service-realtime-8k";
-//        @Value("${self.ali.ak.id}")
-        protected  String ak_id = "LTAIdRDPQOT4doZ7";
-//        @Value("${self.ali.ak.secret}")
-        protected  String ak_secret = "dfh1XZnJQbbUKg5Ll2kzV9PI1YWG4G";
-//        @Value("${self.ali.asrSC}")
-        protected  String asrSC = "pcm";
+        protected static final String appKey = "nls-service-realtime-8k";
+        protected static final String ak_id = "LTAIdRDPQOT4doZ7";
+        protected static final String ak_secret = "dfh1XZnJQbbUKg5Ll2kzV9PI1YWG4G";
+        protected static final String asrSC = "pcm";
 
-        protected NlsClient client = new NlsClient();// ali avr
+        // 外部催收Chatbot服务
         @Autowired
-        private ChatService chatService;// 外部催收Chatbot服务
-        private String uuid;// 会话 id
-        private boolean isBroadcast = false;//　是否播放标志
-        private Stack<String> sentences = new Stack<>();// 语音栈
-        private Socket socket;
-        private InputStream inputStream;
-        private OutputStream outputStream;
-        @Autowired
-        MongoJdbcTemplate mongoJdbcTemplate;
-        private Map callInfo;// 通话相关信息
-        @Value("${self.mongodb.template.database}")
-        private String collectionName;
-        @Autowired
-        RestTemplate restTemplate;
-        private ExecutorService executor = Executors.newCachedThreadPool();
-
+        private ChatService chatService;
+        // 会话 id
+        private String uuid;
         public String getUuid() {
                 return uuid;
         }
+        //　是否播放标志
+        private boolean isBroadcast = false;
 
         @Override
         public void setBroadcastOver() {
                 this.isBroadcast = false;
         }
 
-        public AliVisitorHandler() {
+        private Stack<String> sentences = new Stack<>();
 
+        private Socket socket;
+        private InputStream inputStream;
+        private OutputStream outputStream;
+
+        protected NlsClient client = new NlsClient();
+
+        // 通话相关信息
+        @Autowired
+        MongoJdbcTemplate mongoJdbcTemplate;
+        private Map callInfo;
+        @Value("${self.mongodb.template.database}")
+        private String collectionName;
+        @Autowired
+        RestTemplate restTemplate;
+
+        private ExecutorService executor = Executors.newCachedThreadPool();
+
+
+        public AliVisitorHandler() {
         }
 
         // Constructor
@@ -88,11 +96,13 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                 this.outputStream = socket.getOutputStream();
                 // 获得UUID
                 this.uuid = receiveUuid(this.inputStream, UUID_LENGTH);
+                // 获得通话信息缓存
+                this.callInfo = this.mongoJdbcTemplate.findObjectByParam(collectionName, "uuid", this.uuid);
         }
 
-        // finalize
-        protected void finalize() {
-                if (VisitorServer.getSession(this.uuid) != null) {
+        // finalization code here
+        protected void finalize( ) {
+                if(VisitorServer.getSession(this.uuid) != null) {
                         VisitorServer.rmSession(this.uuid);
                 }
         }
@@ -126,8 +136,9 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                 String uri = callInfo.get("volUri").toString();
                 log.info("URI:" + uri);
 
-                String result = restTemplate.postForObject(uri, formEntity, String.class);
+                JSONObject result = restTemplate.postForObject(uri, formEntity, JSONObject.class);
                 log.info("result:" + result);
+                this.isBroadcast = true;
                 return sendSer.length();
         }
 
@@ -156,8 +167,7 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                         if (StringUtils.isNotBlank(receivedStr)) {
                                 this.sentences.push(receivedStr);// 语音压栈
                         }
-                        if (!this.isBroadcast) { // 已完成播放后直接取最新语音
-                                this.isBroadcast = true;
+                        if(!this.isBroadcast) { // 已完成播放后直接取最新语音
                                 executor.execute(() -> {
                                         if (StringUtils.isNotBlank(receivedStr)) {
                                                 try {
@@ -177,23 +187,6 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                                 });
                         }
 
-//                        System.out.println(response.getResult().getText());
-//                        executor.execute(() -> {
-//                                String receivedStr = response.getResult().getText();
-////                                buffer.setLength(0);
-//                                log.info(receivedStr.length() > 0 ? receivedStr : "receivedStr : no message");
-//                                if (StringUtils.isNotBlank(receivedStr)) {
-//                                        try {
-//                                                long startTime = System.currentTimeMillis();
-//                                                String sendStr = null;
-//                                                sendStr = getRepStr(receivedStr);
-//                                                log.info("处理时间:" + (System.currentTimeMillis() - startTime) + "; sendStr :" + sendStr);
-//                                                sendStr(sendStr);
-//                                        } catch (IOException ex) {
-//                                                ex.printStackTrace();
-//                                        }
-//                                }
-//                        });
                         log.debug("status code = {},get finish is {},get recognize result: {}", response.getStatusCode(), response.getFinish(), response.getResult());
                         if (response.getQuality() != null) {
                                 log.info("Sentence {} is over. Get ended sentence recognize result: {}, voice quality is {}",
@@ -212,27 +205,12 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
         }
 
         @Override
-        public void onChannelClosed(NlsEvent e) {
-                log.debug("on websocket closed.");
+        public void onChannelClosed(NlsEvent e) {log.debug("on websocket closed.");
         }
 
         @Override
         public void run() {
                 log.info("start!");
-                // 获得通话信息缓存
-                this.callInfo = this.mongoJdbcTemplate.findObjectByParam(collectionName, "uuid", this.uuid);
-                this.callInfo.put("insurerName", "胡达娇");
-                this.callInfo.put("insurerTitle", "先生");
-                this.callInfo.put("chatbotNum", "001");
-                this.callInfo.put("insuranceType", "好生活年金保险");
-                this.callInfo.put("insurePeriod", "十");
-                this.callInfo.put("feePeriod", "二十");
-                this.callInfo.put("feePerYear", "一千五百元整");
-                this.callInfo.put("insuranceLiability", "好生活年金");
-                this.callInfo.put("insurerPhoneNumber", "13333333333");
-                this.callInfo.put("insurerAddress", "湖南长沙");
-                this.callInfo.put("insurerZipCode", "421000");
-
                 // 开始交互
                 try {
                         this.start();
@@ -266,10 +244,10 @@ public class AliVisitorHandler implements ISession, Runnable, NlsListener {
                                         outputStream = null;
                                 }
                         }
-                        if (client != null) {
+                        if(client != null) {
                                 client.close();
                         }
-                        if (VisitorServer.getSession(this.uuid) != null) {
+                        if(VisitorServer.getSession(this.uuid) != null) {
                                 VisitorServer.rmSession(this.uuid);
                         }
                 }

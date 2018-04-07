@@ -1,4 +1,4 @@
-package cn.edu.nudt.pdl.yony.servicesealifevisitor.server;
+package cn.edu.nudt.pdl.yony.servicedunner.server;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,7 +21,7 @@ public class VisitorServer implements ApplicationContextAware {
         private ApplicationContext applicationContext;
 
         @Value("${self.server.hostPort}")
-        private int hostPort;
+        private int serverPort;
 
         private static ConcurrentHashMap<String, Object> sessions = new ConcurrentHashMap<>();
 
@@ -47,13 +48,13 @@ public class VisitorServer implements ApplicationContextAware {
         public void run(String... args) throws Exception {
                 ServerSocket ss = null;
                 try{
-                        ss = new ServerSocket(this.hostPort);
-                        System.out.println("Server start on port: " + this.hostPort);
+                        ss = new ServerSocket(serverPort);
+                        System.out.println("Server start on port: " + serverPort);
                         while (true) {
                                 Socket socket = ss.accept();
                                 AliVisitorHandler dh = applicationContext.getBean(AliVisitorHandler.class, new Object[]{socket/*, outerDunnerService*/});
-                                Thread dunner = new Thread(dh);//new DunnerHandler(socket, outerDunnerService)
                                 sessions.put(dh.getUuid(), dh);
+                                Thread dunner = new Thread(dh);//new DunnerHandler(socket, outerDunnerService)
                                 dunner.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                                         @Override
                                         public void uncaughtException(Thread t, Throwable e) {

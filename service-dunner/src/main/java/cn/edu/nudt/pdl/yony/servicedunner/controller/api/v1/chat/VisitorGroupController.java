@@ -1,10 +1,9 @@
-package cn.edu.nudt.pdl.yony.servicesealifevisitor.controller.api.v1.chat;
+package cn.edu.nudt.pdl.yony.servicedunner.controller.api.v1.chat;
 
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.server.ISession;
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.server.VisitorServer;
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.service.ChatService;
-import cn.edu.nudt.pdl.yony.servicesealifevisitor.utils.MongoJdbcTemplate;
-import cn.yony.automaton.simple.SimpAutomaton;
+import cn.edu.nudt.pdl.yony.servicedunner.server.ISession;
+import cn.edu.nudt.pdl.yony.servicedunner.server.VisitorServer;
+import cn.edu.nudt.pdl.yony.servicedunner.service.ChatService;
+import cn.edu.nudt.pdl.yony.servicedunner.utils.MongoJdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,7 @@ import java.util.regex.Pattern;
  * Created by yony on 18-1-9.
  */
 @RestController
-@RequestMapping(value = "/api/v1/chat/sealife/visitorgroup")
+@RequestMapping(value = "/api/v1/chat/dunner/visitorgroup")
 public class VisitorGroupController {
 
         @Autowired
@@ -36,7 +35,7 @@ public class VisitorGroupController {
         @Value("${self.server.hostPort}")
         private String hostPort;
 
-        //enroll
+        // enroll
         @RequestMapping(value = "/seat", method = RequestMethod.POST)
         public Map seat(@RequestParam HashMap<String, Object> params) {
                 Map<String, Object> rtVal = new HashMap<>();
@@ -44,18 +43,6 @@ public class VisitorGroupController {
                 Map regMap = chatService.reg();
                 String uuid = regMap.get("uuid").toString();
                 String resp = regMap.get("resp").toString();
-
-                params.put("insurerName", "胡达娇");
-                params.put("insurerTitle", "先生");
-                params.put("chatbotNum", "001");
-                params.put("insuranceType", "好生活年金保险");
-                params.put("insurePeriod", "十");
-                params.put("feePeriod", "二十");
-                params.put("feePerYear", "一千五百元整");
-                params.put("insuranceLiability", "好生活年金");
-                params.put("insurerPhoneNumber", "13333333333");
-                params.put("insurerAddress", "湖南长沙");
-                params.put("insurerZipCode", "421000");
 
                 // 替换占位符
                 Pattern p = Pattern.compile("#\\w+#");
@@ -78,14 +65,14 @@ public class VisitorGroupController {
                 return rtVal;
         }
 
-        //interact
+        // interact
         @RequestMapping(value = "/seat/{uuid}", method = RequestMethod.GET)
         public Map interact(@PathVariable String uuid, @RequestParam String req) {
                 return chatService.interact(uuid, req);
         }
 
         // setBroadcastOver
-        @RequestMapping(value = "/seat/broadcastover/{uuid}", method = RequestMethod.GET)
+        @RequestMapping(value = "/seat/broadcastover/{uuid}", method = RequestMethod.POST)
         public Map setBroadcastOver(@PathVariable String uuid, @RequestParam String req) {
                 ISession session = VisitorServer.getSession(uuid);
                 session.setBroadcastOver();
@@ -94,7 +81,7 @@ public class VisitorGroupController {
                 return rtVal;
         }
 
-        //quit
+        // quit
         @RequestMapping(value = "/seat/{uuid}", method = RequestMethod.DELETE)
         public Map quit(@PathVariable String uuid) {
                 return chatService.quit(uuid);
